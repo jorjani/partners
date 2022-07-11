@@ -10,5 +10,5 @@ const iterationSchema = new Schema({
     projects: {type: [projectSchema]}
 })
 
-const iterationModel = mongoose.model('Users', iterationSchema);
+const iterationModel = mongoose.model('Iteration', iterationSchema);
 module.exports = { iterationModel, iterationSchema }

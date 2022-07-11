@@ -45,5 +45,5 @@ const projectSchema = new Schema({
     config: {type: projectConfigSchema}
 })
 
-const projectModel = mongoose.model('Users', projectSchema);
+const projectModel = mongoose.model('Project', projectSchema);
 module.exports = { projectModel, projectSchema }
