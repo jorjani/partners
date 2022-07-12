@@ -8,7 +8,7 @@ const organizationSchema = new Schema({
     website: {type: String, required: true},
     type: {type: String, required: true},
     employee_count: {type: Number, required: true, default: 0},
-    referral_info: {type: String},
+    referral_info: {type: String, default: ""},
     projects: {type: [projectSchema]},
 
 })

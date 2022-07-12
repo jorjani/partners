@@ -6,7 +6,7 @@ const { projectSchema } = require('./Project');
 const iterationSchema = new Schema({
     name: {type: String, required: true},
     organization: {type: ObjectId, required: true},
-    duration: {type: (Date, Date), required: true},
+    duration: {type: (Date, Date), required: true, default: (Date.now, Date.now)},
     projects: {type: [projectSchema]}
 })
 
