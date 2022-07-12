@@ -16,7 +16,7 @@ const teamSchema = new Schema({
     partners: {type: [ObjectId]},
     students: {type: [ObjectId]},
     educators: {type: [ObjectId]},
-    meetings: {type: [meetingSchema], default: {}}
+    meetings: {type: [meetingSchema], default: []}
 })
 
 const projectConfigSchema = new Schema({
