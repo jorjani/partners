@@ -58,6 +58,26 @@ router.route("/:type/:id").get(async (req, res) => {
     }
 })
 
+router.route("/student/iteration/:iteration_id").get(async (req, res) => {
+    try {
+        const iteration_id = ObjectId(req.params.iteration_id);
+        return await getStudentsInIteration(iteration_id, req, res);
+    } catch (err) {
+        return res.status(500).send(err.message);
+    }
+}
+);
+
+router.route("/partner/iteration/:iteration_id").get(async (req, res) => {
+    try {
+        const iteration_id = ObjectId(req.params.iteration_id);
+        return await getPartnersInIteration(iteration_id, req, res);
+    } catch (err) {
+        return res.status(500).send(err.message);
+    }
+}
+);
+
 function addUserToDatabase(type, user, req, res) {
     if (type === "student") {
         const newStudent = new studentModel(user);
@@ -202,5 +222,18 @@ function deleteUserFromDatabase(type, id, req, res) {
         });
     }
 }
+
+// Used in get students/partners in iteration endpoint
+
+async function getStudentsInIteration(iteration_id, req, res) {
+    let students = await studentModel.find({ iteration_id: iteration_id });
+    return res.status(201).send(students);
+}
+
+async function getPartnersInIteration(iteration_id, req, res) {
+    let partners = await partnerModel.find({ iteration_id: iteration_id });
+    return res.status(201).send(partners);
+}
+
 
 module.exports = router;
