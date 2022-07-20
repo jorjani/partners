@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 const { ObjectId } = require('mongodb');
 const { projectSchema } = require('./Project');
-const { studentSchema } = require('./Student');
+const { studentSchema } = require('./User');
 
 const teamSchema = new Schema({
     name: {type: String, required: true, unique: true},
