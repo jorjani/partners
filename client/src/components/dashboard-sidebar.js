@@ -2,16 +2,11 @@ import { useEffect, useState } from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
-import { Box, Button, Collapse, Divider, Drawer, Typography, useMediaQuery, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Box, Divider, Drawer, Typography, useMediaQuery, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { ChartBar as ChartBarIcon } from '../icons/chart-bar';
 import { Selector as SelectorIcon } from '../icons/selector';
 import { Logo } from './logo';
 import { NavItem } from './nav-item';
-import { Users as UsersIcon } from '../icons/users';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import { Cog } from '../icons/cog';
 
 const items = [
   {
