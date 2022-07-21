@@ -15,8 +15,10 @@ export const NavPath = (props) => {
       console.log(lst)
       console.log(pathname)
       for (let i = 0; i < lst.length; i++) {
-        if (lst[i] !== '') {
+        if (lst[i] !== '' && i < lst.length - 1) {
           path += wordFormat(lst[i]) + '/';
+        } else if (i === lst.length - 1) {
+          path += wordFormat(lst[i]);
         }
       }
       return path;

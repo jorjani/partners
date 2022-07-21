@@ -1,22 +1,22 @@
 import Head from 'next/head';
 import { Box, Container, Grid } from '@mui/material';
-import { UserInfo } from '../components/dashboard/user-info';
-import { DashboardLayout } from '../components/dashboard-layout';
-import { CourseViewer } from '../components/dashboard/course-viewer';
+import { CustomerListToolbar } from '../../../components/customer/customer-list-toolbar';
+import { DashboardLayout } from '../../../components/dashboard-layout';
 import { NavPath } from 'src/components/nav-path';
+import { Form } from 'src/components/course-overview/form';
 
-const Dashboard = () => (
+const CourseOverview = () => (
   <>
     <Head>
       <title>
-        Dashboard | Athena
+        Course Overview | Athena
       </title>
     </Head>
     <Box
       component="main"
       sx={{
         flexGrow: 1,
-        py: 3
+        py: 8
       }}
     >
       <Container maxWidth={false}>
@@ -26,41 +26,31 @@ const Dashboard = () => (
         >
           <Grid
             item
-            lg={12}
-            sm={12}
-            xl={12}
-            xs={12}
+            lg={9}
+            sm={9}
+            xl={9}
+            xs={9}
           >
             <NavPath />
           </Grid>
           <Grid
             item
-            lg={6}
+            lg={3}
             sm={6}
-            xl={6}
+            xl={3}
             xs={12}
           >
-            <UserInfo />
-          </Grid>
-          <Grid
-            item
-            lg={8}
-            md={12}
-            xl={9}
-            xs={12}
-          >
-            <CourseViewer />
+            <Form />
           </Grid>
         </Grid>
       </Container>
     </Box>
   </>
 );
-
-Dashboard.getLayout = (page) => (
+CourseOverview.getLayout = (page) => (
   <DashboardLayout>
     {page}
   </DashboardLayout>
 );
 
-export default Dashboard;
+export default CourseOverview;
