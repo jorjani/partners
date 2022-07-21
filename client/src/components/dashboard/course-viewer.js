@@ -1,0 +1,115 @@
+import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
+import { styled, alpha } from '@mui/material/styles';
+import SearchIcon from '@mui/icons-material/Search';
+import InputBase from '@mui/material/InputBase';
+import CourseCard from './course-card';
+import { useEffect, useState } from 'react';
+const courseList = [
+    {
+        course_code: 'CSC301',
+        course_title: 'Introduction to Software Engineering',
+        course_session: 'Fall'
+    },
+    {
+        course_code: 'CSC384',
+        course_title: 'Introduction to Artificial Intelligence',
+        course_session: 'Winter'
+    }
+]
+
+const Search = styled('div')(({ theme }) => ({
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    '&:hover': {
+        backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+        marginLeft: theme.spacing(1),
+        width: 'auto',
+    },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: 'inherit',
+    '& .MuiInputBase-input': {
+        padding: theme.spacing(1, 1, 1, 0),
+        // vertical padding + font size from searchIcon
+        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+            width: '12ch',
+            '&:focus': {
+                width: '20ch',
+            },
+        },
+    },
+}));
+
+export const CourseViewer = () => {
+    const [search, setSearch] = useState('');
+    const [filteredList, setFilteredList] = useState(courseList);
+    useEffect(() => {
+        setFilteredList(courseList.filter(course => course.course_code.includes(search)));
+    } , [search]);
+    return (
+        <Card
+            sx={{ height: '100%' }}
+        >
+            <CardContent>
+                <Grid
+                    container
+                    spacing={3}
+                    sx={{ justifyContent: 'space-between' }}
+                >
+                    <Grid item>
+                        <Typography
+                            color="textSecondary"
+                            gutterBottom
+                            variant="overline"
+                        >
+                            MY COURSES
+                        </Typography>
+                        <Search onChange={(e)=>setSearch(e.target.value)}>
+                            <SearchIconWrapper>
+                                <SearchIcon />
+                            </SearchIconWrapper>
+                            <StyledInputBase
+                                placeholder="Search…"
+                                inputProps={{ 'aria-label': 'search' }}
+                            />
+                        </Search>
+                    </Grid>
+                </Grid>
+                <Box
+                    sx={{
+                        pt: 2,
+                        display: 'flex',
+                        alignItems: 'center'
+                    }}
+                >
+                    {filteredList.map((course, index) => (
+                        <CourseCard
+                            key={index}
+                            course_code={course.course_code}
+                            course_title={course.course_title}
+                            course_session={course.course_session}
+                        />
+                    ))}
+                </Box>
+            </CardContent>
+        </Card>
+    )
+}
