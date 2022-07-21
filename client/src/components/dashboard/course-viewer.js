@@ -1,9 +1,12 @@
 import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import CourseCard from './course-card';
 import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
+
 const courseList = [
     {
         course_code: 'CSC301',
@@ -61,9 +64,38 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export const CourseViewer = () => {
     const [search, setSearch] = useState('');
     const [filteredList, setFilteredList] = useState(courseList);
+    const [addToggle, setAddToggle] = useState(false);
     useEffect(() => {
         setFilteredList(courseList.filter(course => course.course_code.includes(search)));
-    } , [search]);
+    }, [search]);
+    const getCourses = () => {
+        let res = filteredList.map((course, index) => (
+            <CourseCard
+                key={index}
+                course_code={course.course_code}
+                course_title={course.course_title}
+                course_session={course.course_session}
+            />
+        ))
+        res.push(
+            <Grid item ml={5} onClick={() => addCourse()}>
+                <AddCircleOutlineIcon sx={{ fontSize: 40 }} />
+            </Grid>
+        )
+        return res;
+    }
+    const addCourse = async () => {
+        const { value: code } = await Swal.fire({
+            title: 'Join course',
+            input: 'text',
+            inputLabel: 'Your course code',
+            inputPlaceholder: 'Enter your course code'
+          })
+          
+          if (code) {
+            Swal.fire(`Entered code: ${code}`)
+          }
+    }
     return (
         <Card
             sx={{ height: '100%' }}
@@ -82,7 +114,7 @@ export const CourseViewer = () => {
                         >
                             MY COURSES
                         </Typography>
-                        <Search onChange={(e)=>setSearch(e.target.value)}>
+                        <Search onChange={(e) => setSearch(e.target.value)}>
                             <SearchIconWrapper>
                                 <SearchIcon />
                             </SearchIconWrapper>
@@ -100,14 +132,7 @@ export const CourseViewer = () => {
                         alignItems: 'center'
                     }}
                 >
-                    {filteredList.map((course, index) => (
-                        <CourseCard
-                            key={index}
-                            course_code={course.course_code}
-                            course_title={course.course_title}
-                            course_session={course.course_session}
-                        />
-                    ))}
+                    {getCourses()}
                 </Box>
             </CardContent>
         </Card>
