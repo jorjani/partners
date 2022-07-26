@@ -8,6 +8,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import { useState } from 'react';
+import Swal from 'sweetalert2';
 
 const CourseOverview = () => {
   const [editable, setEditable] = useState(false);
@@ -20,8 +21,51 @@ const CourseOverview = () => {
       setEditable(true);
     }
   }
+  const getCourseFromURL = () => {
+    const url = window.location.href;
+    const courseId = url.split('/')[4];
+    return courseId;
+  }
   const invitePartners = () => {
-    console.log("invite partners")
+    Swal.fire({
+      title: `Invite Partners to ${getCourseFromURL().toUpperCase()}`,
+      html: `Send via Email
+      <input type="text" id="email" class="swal2-input" placeholder="Email">
+      <input type="text" id="subject" class="swal2-input" placeholder="Subject">
+      <input type="text" id="message" class="swal2-input" placeholder="Message">`,
+      cancelButtonText: 'Cancel',
+      confirmButtonText: 'Invite',
+      showCancelButton: true,
+      focusConfirm: false,
+      preConfirm: () => {
+        const email = Swal.getPopup().querySelector('#email').value
+        const subject = Swal.getPopup().querySelector('#subject').value
+        const message = Swal.getPopup().querySelector('#message').value
+        let validationMessage = ''
+        if (!validateEmail(email)) {
+          validationMessage += 'Email address is not valid. '
+        }
+        if (!subject) {
+          validationMessage += 'Subject is required. '
+        }
+        if (!message) {
+          validationMessage += 'Message is required. '
+        }
+        if (validationMessage !== '') {
+          Swal.showValidationMessage(validationMessage)
+        }
+        return { email: email, subject: subject, message: message }
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let userInfo = result.value;
+        Swal.fire(
+          '',
+          'Your invitation has been sent.',
+          'success'
+        )
+      }
+    })
   }
   return (
     <>
