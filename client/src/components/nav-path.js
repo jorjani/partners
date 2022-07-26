@@ -38,9 +38,9 @@ export const NavPath = (props) => {
 
         <Typography
           color="textPrimary"
-          variant="subtitle"
+          variant="button"
         >
-          <HomeIcon sx={{ fontSize: 15 }} /> {generatePath()}
+          <HomeIcon sx={{ fontSize: 15 }} />{generatePath()}
         </Typography>
       </Grid>
     </Grid>

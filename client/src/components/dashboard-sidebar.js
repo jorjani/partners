@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
-import { Box, Divider, Drawer, Typography, useMediaQuery, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Box, Divider, Drawer, Typography, useMediaQuery, Container, Grid } from '@mui/material';
 import { ChartBar as ChartBarIcon } from '../icons/chart-bar';
 import { Selector as SelectorIcon } from '../icons/selector';
 import { Logo } from './logo';
@@ -82,17 +82,47 @@ export const DashboardSidebar = (props) => {
           <Box sx={{ p: 3 }}>
             <NextLink
               href="/"
-              passHref
             >
-              <a>
-                <Logo
-                  sx={{
-                    height: 42,
-                    width: 42
-                  }}
-                />
-              </a>
+              <Container maxWidth={false}>
+                <Grid
+                  container
+                  spacing={3}
+                >
+                  <Grid
+                    item
+                    lg={3}
+                    sm={3}
+                    xl={3}
+                    xs={3}
+                  >
+                    <Logo
+                      sx={{
+                        height: 42,
+                        width: 42
+                      }}
+                    />
+                  </Grid>
+                  <Grid
+                    item
+                    lg={6}
+                    sm={6}
+                    xl={6}
+                    xs={6}
+                    sx={{
+                      marginTop: '8px'
+                    }}
+                  >
+                    <Typography
+                      color="white"
+                      variant="title"
+                    >
+                      ATHENA
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Container>
             </NextLink>
+
           </Box>
           <Box sx={{ px: 2 }}>
             <Box
