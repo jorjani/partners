@@ -3,7 +3,7 @@ import { Box, Container, Grid, Typography, Button } from "@mui/material";
 import { DashboardLayout } from "../../../components/dashboard-layout";
 import { NavPath } from "src/components/nav-path";
 import { SkillSelector } from "src/components/skills-qualifications/skill-selector";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 
 const SkillsQualifications = () => {
@@ -13,6 +13,9 @@ const SkillsQualifications = () => {
     const courseId = url.split("/")[4];
     return courseId;
   };
+  useEffect(() => {
+    console.log(skillList);
+  } , [skillList])
   return (
     <>
       <Head>
@@ -37,11 +40,11 @@ const SkillsQualifications = () => {
             </Grid>
             <Grid item mr={3} lg={12} sm={12} xl={12} xs={12}>
               <Typography color="textPrimary" variant="p">
-                Add skills and qualifications that are relevant to your course.
+                Select ratings and add skills and qualifications that are relevant to your course.
               </Typography>
             </Grid>
             <Grid item lg={12} sm={12} xl={12} xs={12}>
-              <SkillSelector list={[]} />
+              <SkillSelector list={skillList} setList={setSkillList} />
             </Grid>
           </Grid>
         </Container>
