@@ -25,10 +25,6 @@ const items = [
         title: 'Course Overview'
       },
       {
-        href: '/course/csc301h1/proposal-invitation',
-        title: 'Proposal Invitation'
-      },
-      {
         href: '/course/csc301h1/skills-qualifications',
         title: 'Skills & Qualifications'
       },
