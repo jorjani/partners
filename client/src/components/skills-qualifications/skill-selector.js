@@ -13,6 +13,9 @@ const rows = [
     createData(5, "More than 1 year of experience"),
 ];
 export const SkillSelector = (props) => {
+    const [initialOptions, setInitialOptions] = useState([
+        {label: "Python", value: 5},
+    ]);
     const [options, setOptions] = useState(props.list)
     const [input1, setInput1] = useState("");
     const [selectedSkill, setSelectedSkill] = useState(1);
@@ -27,14 +30,16 @@ export const SkillSelector = (props) => {
         setInput1(newOption);
     }
     const handleDelete = (selectedOption) => {
-        let newList = options.filter(option => option.value !== selectedOption.value);
+        let newList = options.filter(option => option.label !== selectedOption);
+        console.log(selectedOption)
+        console.log(newList)
         setOptions(newList);
     }
     const upperCase = (input) => {
         return input.charAt(0).toUpperCase() + input.slice(1);
     }
     useEffect(() => {
-        console.log(input1)
+        console.log(options)
     })
     return (
         <Grid
@@ -58,7 +63,7 @@ export const SkillSelector = (props) => {
                     isMulti
                     // onChange={handleChange}
                     onCreateOption={handleCreate}
-                    options={[]}
+                    options={initialOptions}
                 />
             </Grid>
             <Grid

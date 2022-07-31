@@ -6,6 +6,7 @@ import InputBase from '@mui/material/InputBase';
 import CourseCard from './course-card';
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
+import Axios from "axios";
 
 const courseList = [
     {
@@ -63,18 +64,30 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export const CourseViewer = () => {
     const [search, setSearch] = useState('');
-    const [filteredList, setFilteredList] = useState(courseList);
+    const [courseList, setCourseList] = useState([]);
+    const [filteredList, setFilteredList] = useState([]);
     const [addToggle, setAddToggle] = useState(false);
     useEffect(() => {
-        setFilteredList(courseList.filter(course => course.course_code.includes(search)));
-    }, [search]);
+        if (courseList.length !== 0) {
+            setFilteredList(courseList.filter(course => course.name.includes(search)));
+        }
+    }, [search, courseList]);
+    useEffect(() => {
+        Axios.get('http://localhost:5000/iterations/').then(res => {
+            console.log(res.data);
+            setCourseList(res.data);
+        }).catch(err => {
+            console.log(err);
+        });
+    }, []);
     const getCourses = () => {
         let res = filteredList.map((course, index) => (
             <CourseCard
                 key={index}
-                course_code={course.course_code}
+                course_code={course.name}
                 course_title={course.course_title}
-                course_session={course.course_session}
+                course_organization={course.organization}
+                course_projects={course.projects.length}
             />
         ))
         res.push(
@@ -90,11 +103,11 @@ export const CourseViewer = () => {
             input: 'text',
             inputLabel: 'Your course code',
             inputPlaceholder: 'Enter your course code'
-          })
-          
-          if (code) {
+        })
+
+        if (code) {
             Swal.fire(`Entered code: ${code}`)
-          }
+        }
     }
     return (
         <Card

@@ -18,7 +18,7 @@ export const CourseCard = (props) => {
                             gutterBottom
                             variant="overline"
                         >
-                            {props.course_title}
+                            {props.course_organization}
                         </Typography>
                         <Typography
                             color="textPrimary"
@@ -40,7 +40,7 @@ export const CourseCard = (props) => {
                         variant="caption"
                         ml={1}
                     >
-                        {props.course_session}
+                        Projects: {props.course_projects}
                     </Typography>
                 </Box>
             </CardContent>

@@ -56,6 +56,14 @@ router.route("/:id").delete(async (req, res) => {
 
 // GET
 
+router.route("/").get(async (req, res) => {
+  try {
+    return await getAllIterations(req, res);
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+});
+
 router.route("/:id").get(async (req, res) => {
   try {
     const id = ObjectId(req.params.id);
@@ -73,6 +81,24 @@ router.route("/:iteration_id/matching").post(async (req, res) => {
     return res.status(500).send(err.message);
   }
 });
+
+async function getAllIterations(req, res) {
+  return iterationModel
+    .find()
+    .then(async (iterations) => {
+      let ret = [];
+      for(let i = 0; i < iterations.length; i++) {
+        let curOrganization = await organizationModel.findById(iterations[i].organization);
+        let curIteration = iterations[i].toObject();
+        curIteration['organization'] = curOrganization.name;
+        ret.push(curIteration);
+      }
+      return res.status(200).json(ret);
+    })
+    .catch((err) => {
+      return res.status(500).send(err.message);
+    });
+}
 
 function addIterationToDatabase(iteration, req, res) {
   return iterationModel
