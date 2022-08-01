@@ -6,6 +6,7 @@ const userRouter = require("./routes/users");
 const projectRouter = require("./routes/projects");
 const organizationRouter = require("./routes/organizations");
 const iterationRouter = require("./routes/iterations");
+const authRouter = require("./routes/auth");
 require("dotenv").config({ path: "./config.env" });
 const port = process.env.PORT || 5000;
 app.use(cors());
@@ -14,6 +15,7 @@ app.use("/users", userRouter)
 app.use("/projects", projectRouter)
 app.use("/organizations", organizationRouter)
 app.use("/iterations", iterationRouter)
+app.use("/auth", authRouter)
 
 app.listen(port, () => {
     // perform a database connection when server starts

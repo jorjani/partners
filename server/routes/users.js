@@ -5,6 +5,7 @@ var router = express.Router();
 var bodyParser = require("body-parser");
 var jsonParser = bodyParser.json();
 var ObjectId = require("mongodb").ObjectId;
+var { iterationModel } = require("../models/Iteration");
 var { studentModel, partnerModel, managementModel } = require("../models/User");
 
 // POST
@@ -32,6 +33,18 @@ router.route("/:type/:id").put(async (req, res) => {
         return res.status(500).send(err.message);
     }
 })
+
+router.route("/:type/:id/:iteration_id").put(async (req, res) => {
+    try {
+        const id = req.params.id;
+        const type = req.params.type;
+        const iteration_id = req.params.iteration_id;
+        return await addUserToIteration(type, id, iteration_id, req, res);
+    }
+    catch (err) {
+        return res.status(500).send(err.message);
+    }
+});
 
 // DELETE
 
@@ -235,5 +248,43 @@ async function getPartnersInIteration(iteration_id, req, res) {
     return res.status(201).send(partners);
 }
 
+async function addUserToIteration(type, id, iteration_id, req, res) {
+    if (type === "student") {
+        let curUser = await studentModel.findOne({ _id: id });
+        if (!curUser) {
+            return res.status(404).send("User not found");
+        }
+        let curIteration = await iterationModel.findOne({ _id: iteration_id });
+        if (!curIteration) {
+            return res.status(404).send("Iteration not found");
+        }
+        curUser.iterations.push(curIteration._id);
+        studentModel.findOneAndUpdate({ _id: id }, curUser, (err, result) => {
+            if (err) {
+                return res.status(500).send(err.message);
+            } else {
+                return res.status(201).send(result);
+            }
+        });
+    }
+    else if (type === "partner") {
+        let curUser = await partnerModel.findOne({ _id: id });
+        if (!curUser) {
+            return res.status(404).send("User not found");
+        }
+        let curIteration = await iterationModel.findOne({ _id: iteration_id });
+        if (!curIteration) {
+            return res.status(404).send("Iteration not found");
+        }
+        curUser.iterations.push(curIteration._id);
+        partnerModel.findOneAndUpdate({ _id: id }, curUser, (err, result) => {
+            if (err) {
+                return res.status(500).send(err.message);
+            } else {
+                return res.status(201).send(result);
+            }
+        });
+    }
+};
 
 module.exports = router;

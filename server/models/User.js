@@ -1,27 +1,27 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 const { ObjectId } = require('mongodb');
-const { iterationSchema } = require('./Iteration');
 
 const userSchema = new Schema({
-    name: {type: String, required: true},
+    first_name: {type: String, required: true},
+    last_name: {type: String, required: true},
     email: {type: String, required: true, unique: true},
-    capabilities: {type: [[String, Number]], required: true},
+    capabilities: {type: [[String, Number]], required: true, default: []},
     password: {type: String, required: true, minlength: 8},
     created_at: {type: Date, required: true, default: Date.now}
 })
 
 const studentSchema = new Schema({
     ...userSchema.obj,
-    student_id: {type: String, required: true},
-    github_id: {type: String, required: true},
-    iterations: {type: [iterationSchema], required: true}
+    student_id: {type: String, required: false},
+    github_id: {type: String, required: false},
+    iterations: {type: [ObjectId], default: []}
 })
 
 const partnerSchema = new Schema({
     ...userSchema.obj,
-    iterations: {type: [iterationSchema], required: true, default: []},
-    affiliations: {type: [ObjectId], required: true}
+    iterations: {type: [ObjectId], required: true, default: []},
+    affiliations: {type: [ObjectId], required: true, default: []}
 })
 
 const managementSchema = new Schema({
