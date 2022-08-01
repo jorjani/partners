@@ -3,22 +3,38 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Box, Button, Container, Grid, Link, TextField, Typography, MenuItem } from '@mui/material';
+import { Box, Button, Container, Grid, Link, TextField, Typography, FormControlLabel, Checkbox, Select, MenuItem, InputLabel } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Github as GithubIcon } from '../icons/github';
-import { Google as GoogleIcon } from '../icons/google';
 import { HomepageLayout } from 'src/components/homepage-layout';
-import Axios from "axios";
+import Axios from 'axios';
 
-const Login = () => {
+const Register = () => {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
+      firstName: '',
+      lastName: '',
+      userType: 'student',
       email: '',
       password: '',
-      userType: 'student'
+      passwordCheck: '',
+      terms: false,
     },
     validationSchema: Yup.object({
+      firstName: Yup
+        .string()
+        .max(20)
+        .required(
+          'First Name is required'),
+      lastName: Yup
+        .string()
+        .max(20)
+        .required(
+          'Last Name is required'),
+      userType: Yup
+        .string()
+        .required(
+          'User Type is required'),
       email: Yup
         .string()
         .email(
@@ -28,19 +44,25 @@ const Login = () => {
           'Email is required'),
       password: Yup
         .string()
+        .min(8, 'Password must be at least 8 characters')
         .max(255)
         .required(
           'Password is required'),
-      userType: Yup
+      passwordCheck: Yup
         .string()
+        .min(8, 'Password must be at least 8 characters')
+        .max(255)
         .required(
-          'User Type is required'),
+          'Password is required')
+        .oneOf([Yup.ref('password'), null], 'Passwords must match'),
+      terms: Yup
+        .bool()
+        .oneOf([true], 'Accept Terms & Conditions is required')
     }),
     onSubmit: (fields) => {
-      console.log(fields);
-      Axios.post('http://localhost:5000/auth/login', fields)
+      Axios.post('http://localhost:5000/auth/register', fields)
         .then(res => {
-          router.push('/dashboard');
+          router.push('/');
         }).catch(err => {
           console.log(err);
         });
@@ -51,7 +73,7 @@ const Login = () => {
     <>
       <HomepageLayout>
         <Head>
-          <title>Login | Athena</title>
+          <title>Register | Athena</title>
         </Head>
         <Box
           component="main"
@@ -80,73 +102,61 @@ const Login = () => {
                   color="textPrimary"
                   variant="h4"
                 >
-                  Sign in
-                </Typography>
-                <Typography
-                  color="textSecondary"
-                  gutterBottom
-                  variant="body2"
-                >
-                  Use your credentials to access your account
+                  Create an Account
                 </Typography>
               </Box>
               <Grid
                 container
                 spacing={3}
               >
-                <Grid
-                  item
-                  xs={12}
-                  md={6}
-                >
-                  <Button
-                    sx={{
-                      backgroundColor: '#424242'
-                    }}
-                    fullWidth
-                    startIcon={<GithubIcon />}
-                    onClick={formik.handleSubmit}
-                    size="large"
-                    variant="contained"
-                  >
-                    Login with Github
-                  </Button>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={6}
-                >
-                  <Button
-                    fullWidth
-                    color="error"
-                    startIcon={<GoogleIcon />}
-                    onClick={formik.handleSubmit}
-                    size="large"
-                    variant="contained"
-                  >
-                    Login with Google
-                  </Button>
-                </Grid>
               </Grid>
               <Box
                 sx={{
-                  pb: 3,
-                  pt: 3
+                  pb: 1,
+                  pt: 1
                 }}
               >
-                <Typography
-                  align="center"
-                  color="textSecondary"
-                  variant="body1"
-                >
-                  or login with email address
-                </Typography>
               </Box>
               <Grid
                 container
                 spacing={3}
               >
+                <Grid
+                  item
+                  xs={6}
+                >
+                  <TextField
+                    error={Boolean(formik.touched.firstName && formik.errors.firstName)}
+                    fullWidth
+                    helperText={formik.touched.firstName && formik.errors.firstName}
+                    label="First Name"
+                    margin="normal"
+                    name="firstName"
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    type="firstName"
+                    value={formik.values.firstName}
+                    variant="outlined"
+                  />
+                </Grid>
+                <Grid
+                  item
+                  xs={6}
+                >
+                  <TextField
+                    error={Boolean(formik.touched.lastName && formik.errors.lastName)}
+                    fullWidth
+                    helperText={formik.touched.lastName && formik.errors.lastName}
+                    label="Last Name"
+                    margin="normal"
+                    name="lastName"
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    type="lastName"
+                    value={formik.values.lastName}
+                    variant="outlined"
+                  />
+                </Grid>
                 <Grid
                   item
                   xs={12}
@@ -171,9 +181,6 @@ const Login = () => {
                 <Grid
                   item
                   xs={12}
-                  sx={{
-                    textAlign: 'center'
-                  }}
                 >
                   <TextField
                     error={Boolean(formik.touched.email && formik.errors.email)}
@@ -192,9 +199,6 @@ const Login = () => {
                 <Grid
                   item
                   xs={12}
-                  sx={{
-                    textAlign: 'center'
-                  }}
                 >
                   <TextField
                     error={Boolean(formik.touched.password && formik.errors.password)}
@@ -210,6 +214,40 @@ const Login = () => {
                     variant="outlined"
                   />
                 </Grid>
+                <Grid
+                  item
+                  xs={12}
+                >
+                  <TextField
+                    error={Boolean(formik.touched.passwordCheck && formik.errors.passwordCheck)}
+                    fullWidth
+                    helperText={formik.touched.passwordCheck && formik.errors.passwordCheck}
+                    label="Confirm Password"
+                    margin="normal"
+                    name="passwordCheck"
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    type="password"
+                    value={formik.values.passwordCheck}
+                    variant="outlined"
+                  />
+                </Grid>
+
+                <Grid
+                  item
+                  xs={12}
+                >
+                  <FormControlLabel
+                    value={formik.values.terms}
+                    error={Boolean(formik.touched.terms && formik.errors.terms)}
+                    helperText={formik.touched.terms && formik.errors.terms}
+                    name="terms"
+                    onChange={formik.handleChange}
+                    control={<Checkbox />}
+                    label="I agree to terms & conditions"
+                    labelPlacement="end"
+                  />
+                </Grid>
               </Grid>
               <Box sx={{ py: 2 }}>
                 <Button
@@ -221,27 +259,27 @@ const Login = () => {
                   type="submit"
                   variant="contained"
                 >
-                  Sign In
+                  Create Account
                 </Button>
               </Box>
               <Typography
                 color="textSecondary"
                 variant="body2"
               >
-                Don&apos;t have an account?
+                Already have an account?
                 {' '}
                 <NextLink
-                  href="/register"
+                  href="/login"
                 >
                   <Link
-                    to="/register"
+                    to="/login"
                     variant="subtitle2"
                     underline="hover"
                     sx={{
                       cursor: 'pointer'
                     }}
                   >
-                    Sign Up
+                    Sign In
                   </Link>
                 </NextLink>
               </Typography>
@@ -253,4 +291,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
