@@ -47,6 +47,7 @@ const App = (props) => {
       setUserData({
         token,
         user: userRes.data,
+        type: tokenRes.data.type,
       });
       // setAuth(true)
     }

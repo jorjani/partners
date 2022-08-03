@@ -128,6 +128,7 @@ router.route("/login").post(jsonParser, async (req, res) => {
             res.json({
                 token: token,
                 user: user,
+                type: userType
             });
         } else if (userType === "partner") {
             var user = await partnerModel.findOne({ email: email });
@@ -144,6 +145,7 @@ router.route("/login").post(jsonParser, async (req, res) => {
             res.json({
                 token: token,
                 user: user,
+                type: userType
             });
         } else if (userType === "management") {
             var user = await managementModel.findOne({ email: email });
@@ -160,6 +162,7 @@ router.route("/login").post(jsonParser, async (req, res) => {
             res.json({
                 token: token,
                 user: user,
+                type: userType
             });
         }
     } catch (err) {

@@ -1,5 +1,6 @@
 import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School';
+import BookIcon from '@mui/icons-material/Book';
 import { useState, useContext, useEffect } from 'react';
 import UserContext from 'src/context/UserContext';
 
@@ -9,15 +10,24 @@ export const UserInfo = (props) => {
         if (!userData.user) {
             return <></>;
         }
-        if (userData.user.type === 'Educator') {
+        if (userData.type === 'educator') {
             return <SchoolIcon />
+        } else if (userData.type === 'student') {
+            return <BookIcon />
         }
     }
     const getUserName = () => {
         if (!userData.user) {
-            return "Guest"
+            return "User"
         } else {
             return userData.user.first_name + " " + userData.user.last_name;
+        }
+    }
+    const getUserType = () => {
+        if (!userData.type) {
+            return "Guest"
+        } else {
+            return userData.type.charAt(0).toUpperCase() + userData.type.slice(1);
         }
     }
     return (
@@ -60,7 +70,7 @@ export const UserInfo = (props) => {
                         variant="caption"
                         ml={1}
                     >
-                        Educator
+                        {getUserType()}
                     </Typography>
                 </Box>
             </CardContent>
