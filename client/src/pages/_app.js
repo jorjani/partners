@@ -19,8 +19,16 @@ const App = (props) => {
   const getLayout = Component.getLayout ?? ((page) => page);
 
   const [ userData, setUserData ] = useState(UserContext);
-  const [ iterations, setIterations ] = useState(IterationsContext);
-  
+  const [ iterations, setIterations ] = useState([]);
+  useEffect(() => {
+    Axios.get('http://localhost:5000/iterations/').then(res => {
+        console.log(res.data);
+        setIterations(res.data);
+        // setIterations(res.data);
+    }).catch(err => {
+        console.log(err);
+    });
+}, []);
   const checkLoggedIn = async () => {
     const token = localStorage.getItem("auth-token");
     if (token == null) {

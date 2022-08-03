@@ -10,7 +10,8 @@ import { NavItem } from './nav-item';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-
+import UserContext from '../context/UserContext';
+import { useContext } from 'react';
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   boxShadow: theme.shadows[3]
@@ -20,6 +21,7 @@ export const DashboardNavbar = (props) => {
   const { onSidebarOpen, ...other } = props;
   const [avatarToggle, setAvatarToggle] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const { setUserData } = useContext(UserContext);
 
   const openProfile = () => {
     console.log("open profile");
@@ -28,7 +30,12 @@ export const DashboardNavbar = (props) => {
     console.log("open settings");
   }
   const logoutUser = () => {
-    console.log("logout user");
+    setUserData({
+      token: undefined,
+      user: undefined
+    });
+    localStorage.setItem("auth-token", "")
+    window.location.href = '/login';
   }
   const handleClick = (event) => {
     setAvatarToggle(!avatarToggle);

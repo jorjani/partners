@@ -15,7 +15,7 @@ const SkillsQualifications = () => {
   };
   useEffect(() => {
     console.log(skillList);
-  } , [skillList])
+  }, [skillList]);
   return (
     <>
       <Head>
