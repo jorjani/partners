@@ -40,7 +40,7 @@ const SkillsQualifications = () => {
             </Grid>
             <Grid item mr={3} lg={12} sm={12} xl={12} xs={12}>
               <Typography color="textPrimary" variant="p">
-                Select ratings and add skills and qualifications that are relevant to your course.
+                Add skills and qualifications that are relevant to your course's students.
               </Typography>
             </Grid>
             <Grid item lg={12} sm={12} xl={12} xs={12}>
