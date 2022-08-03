@@ -8,9 +8,6 @@ const HomepageLayoutRoot = styled('div')(({ theme }) => ({
   flex: '1 1 auto',
   maxWidth: '100%',
   paddingTop: 64,
-  [theme.breakpoints.up('lg')]: {
-    paddingLeft: 280
-  }
 }));
 
 export const HomepageLayout = (props) => {
@@ -23,7 +20,8 @@ export const HomepageLayout = (props) => {
             display: 'flex',
             flex: '1 1 auto',
             flexDirection: 'column',
-            width: '100%'
+            width: '100%',
+            marginTop: 5,
           }}
         >
           {children}

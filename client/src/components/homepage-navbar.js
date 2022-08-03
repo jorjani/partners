@@ -37,21 +37,13 @@ export const HomepageNavbar = (props) => {
   return (
     <>
       <HomepageNavbarRoot
-        sx={{
-          left: {
-            lg: 280
-          },
-          width: {
-            lg: 'calc(100% - 280px)'
-          }
-        }}
         {...other}>
         <Toolbar
           disableGutters
           sx={{
-            minHeight: 64,
+            minHeight: 6,
             left: 0,
-            px: 2
+            px: 2,
           }}
         >
           <Box sx={{ p: 3 }}>

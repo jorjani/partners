@@ -5,10 +5,10 @@ import { HomepageLayout } from "../components/homepage-layout";
 import { CourseViewer } from "../components/dashboard/course-viewer";
 import { NavPath } from "src/components/nav-path";
 
-const Dashboard = () => (
+const Home = () => (
   <>
     <Head>
-      <title>Dashboard | Athena</title>
+      <title>Homepage | Athena</title>
     </Head>
     <Box
       component="main"
@@ -17,7 +17,7 @@ const Dashboard = () => (
         py: 3,
       }}
     >
-      <Container maxWidth={false}>
+      <Container>
         <Grid container spacing={3}>
           <Grid item lg={12} sm={12} xl={12} xs={12}>
             <Typography color="textPrimary" variant="h4">
@@ -30,6 +30,6 @@ const Dashboard = () => (
   </>
 );
 
-Dashboard.getLayout = (page) => <HomepageLayout>{page}</HomepageLayout>;
+Home.getLayout = (page) => <HomepageLayout>{page}</HomepageLayout>;
 
-export default Dashboard;
+export default Home;
