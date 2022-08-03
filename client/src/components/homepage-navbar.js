@@ -14,7 +14,6 @@ export const HomepageNavbar = (props) => {
   const { onSidebarOpen, ...other } = props;
   const [avatarToggle, setAvatarToggle] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-
   const openLogin = (e) => {
     e.preventDefault();
     window.location.href = '/login';
@@ -22,9 +21,6 @@ export const HomepageNavbar = (props) => {
   const openRegister = (e) => {
     e.preventDefault();
     window.location.href = '/register';
-  }
-  const logoutUser = () => {
-    console.log("logout user");
   }
   const handleClick = (event) => {
     setAvatarToggle(!avatarToggle);
