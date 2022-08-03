@@ -9,9 +9,12 @@ import { Github as GithubIcon } from '../icons/github';
 import { Google as GoogleIcon } from '../icons/google';
 import { HomepageLayout } from 'src/components/homepage-layout';
 import Axios from "axios";
+import UserContext from 'src/context/UserContext';
+import { useContext } from 'react';
 
 const Login = () => {
   const router = useRouter();
+  const { setUserData } = useContext(UserContext);
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -40,6 +43,8 @@ const Login = () => {
       console.log(fields);
       Axios.post('http://localhost:5000/auth/login', fields)
         .then(res => {
+          localStorage.setItem("auth-token", res.data.token);
+          setUserData(res.data);
           router.push('/dashboard');
         }).catch(err => {
           console.log(err);

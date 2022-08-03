@@ -1,14 +1,23 @@
 import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School';
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
+import UserContext from 'src/context/UserContext';
+
 export const UserInfo = (props) => {
-    const [user, setUser] = useState({
-        name: 'Gerald Anderson',
-        type: 'Educator',
-    });
+    const { userData } = useContext(UserContext);
     const getIcon = () => {
-        if(user.type === 'Educator') {
+        if (!userData.user) {
+            return <></>;
+        }
+        if (userData.user.type === 'Educator') {
             return <SchoolIcon />
+        }
+    }
+    const getUserName = () => {
+        if (!userData.user) {
+            return "Guest"
+        } else {
+            return userData.user.first_name + " " + userData.user.last_name;
         }
     }
     return (
@@ -34,7 +43,7 @@ export const UserInfo = (props) => {
                             color="textPrimary"
                             variant="h4"
                         >
-                            Gerald Anderson
+                            {getUserName()}
                         </Typography>
                     </Grid>
                 </Grid>

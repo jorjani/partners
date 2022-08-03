@@ -174,10 +174,26 @@ router.post("/token", async (req, res) => {
 
         const verified = jwt.verify(token, process.env.JWT_SECRET);
         if (!verified) return res.json(false);
-        var user = await userModel.findOne({ _id: ObjectId(verified.id) });
-        if (!user) return res.json(false);
-
-        return res.json({ id: verified.id });
+        var student = await studentModel.findOne({ _id: ObjectId(verified.id) });
+        var partner = await partnerModel.findOne({ _id: ObjectId(verified.id) });
+        var management = await managementModel.findOne({ _id: ObjectId(verified.id) });
+        if (!student && !partner && !management) return res.json(false);
+        if(student) {
+            return res.json({
+                id: verified.id,
+                type: "student"
+            });
+        } else if (partner) {
+            return res.json({
+                id: verified.id,
+                type: "partner"
+            });
+        } else if (management) {
+            return res.json({
+                id: verified.id,
+                type: "management"
+            });
+        }
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

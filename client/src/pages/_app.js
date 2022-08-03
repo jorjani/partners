@@ -22,9 +22,7 @@ const App = (props) => {
   const [ iterations, setIterations ] = useState([]);
   useEffect(() => {
     Axios.get('http://localhost:5000/iterations/').then(res => {
-        console.log(res.data);
         setIterations(res.data);
-        // setIterations(res.data);
     }).catch(err => {
         console.log(err);
     });
@@ -33,33 +31,32 @@ const App = (props) => {
     const token = localStorage.getItem("auth-token");
     if (token == null) {
       localStorage.setItem("auth-token", "");
-      //token = "";
     }
     const tokenRes = await Axios.post(
       "http://localhost:5000/auth/token",
       null,
       { headers: { "x-auth-token": token } }
     );
-    //console.log(tokenRes);
     if (tokenRes.data) {
-      //console.log(tokenRes.data.id);
       const userRes = await Axios.get(
-        `http://localhost:5000/users/${tokenRes.data.id}`,
+        `http://localhost:5000/users/${tokenRes.data.type}/${tokenRes.data.id}`,
         {
           headers: { "x-auth-token": token },
         }
       );
-      //console.log(userData);
       setUserData({
         token,
         user: userRes.data,
       });
-      setAuth(true)
+      // setAuth(true)
     }
   };
   useEffect(() => {
     checkLoggedIn();
   }, []);
+  useEffect(() => {
+    console.log(userData);
+  });
   return (
     <CacheProvider value={emotionCache}>
       <UserContext.Provider value={{userData, setUserData}}>
