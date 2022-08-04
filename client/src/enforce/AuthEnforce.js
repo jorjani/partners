@@ -1,16 +1,50 @@
 import UserContext from 'src/context/UserContext';
 import React from "react";
+import Axios from "axios";
 
 export default function AuthEnforce() {
-    const { userData } = React.useContext(UserContext);
-    React.useEffect(async () => {
-        if (!window.location.href.includes("/login") && !window.location.href.includes("/register")) {
-            if (userData.user) {
+    const { userData, setUserData } = React.useContext(UserContext);
+    const checkLoggedIn = async () => {
+        const token = localStorage.getItem("auth-token");
+        if (token == null) {
+            localStorage.setItem("auth-token", "");
+        }
+        const tokenRes = await Axios.post(
+            "http://localhost:5000/auth/token",
+            null,
+            { headers: { "x-auth-token": token } }
+        );
+        if (tokenRes.data) {
+            const userRes = await Axios.get(
+                `http://localhost:5000/users/${tokenRes.data.type}/${tokenRes.data.id}`,
+                {
+                    headers: { "x-auth-token": token },
+                }
+            );
+            setUserData({
+                token,
+                user: userRes.data,
+                type: tokenRes.data.type,
+            });
+            // setAuth(true)
+        }
+    };
+    const controlAccess = () => {
+        if (userData.token) {
+            if (window.location.pathname === "/login" || window.location.pathname === "/register") {
                 window.location.href = "/dashboard";
-            } else {
+            }
+        } else {
+            if (window.location.pathname === "/dashhboard" || window.location.pathname.includes("course")) {
                 window.location.href = "/login";
             }
         }
-    }, [userData.user])
+    }
+    React.useEffect(() => {
+        controlAccess();
+    });
+    React.useEffect(() => {
+        checkLoggedIn();
+    }, []);
     return (<></>);
 }

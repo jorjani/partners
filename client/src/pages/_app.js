@@ -10,6 +10,7 @@ import UserContext from 'src/context/UserContext';
 import IterationsContext from 'src/context/IterationsContext';
 import { useContext, useEffect, useState } from 'react';
 import Axios from "axios";
+import AuthEnforce from 'src/enforce/AuthEnforce';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -27,37 +28,37 @@ const App = (props) => {
         console.log(err);
     });
 }, []);
-  const checkLoggedIn = async () => {
-    const token = localStorage.getItem("auth-token");
-    if (token == null) {
-      localStorage.setItem("auth-token", "");
-    }
-    const tokenRes = await Axios.post(
-      "http://localhost:5000/auth/token",
-      null,
-      { headers: { "x-auth-token": token } }
-    );
-    if (tokenRes.data) {
-      const userRes = await Axios.get(
-        `http://localhost:5000/users/${tokenRes.data.type}/${tokenRes.data.id}`,
-        {
-          headers: { "x-auth-token": token },
-        }
-      );
-      setUserData({
-        token,
-        user: userRes.data,
-        type: tokenRes.data.type,
-      });
-      // setAuth(true)
-    }
-  };
-  useEffect(() => {
-    checkLoggedIn();
-  }, []);
-  useEffect(() => {
-    console.log(userData);
-  });
+  // const checkLoggedIn = async () => {
+  //   const token = localStorage.getItem("auth-token");
+  //   if (token == null) {
+  //     localStorage.setItem("auth-token", "");
+  //   }
+  //   const tokenRes = await Axios.post(
+  //     "http://localhost:5000/auth/token",
+  //     null,
+  //     { headers: { "x-auth-token": token } }
+  //   );
+  //   if (tokenRes.data) {
+  //     const userRes = await Axios.get(
+  //       `http://localhost:5000/users/${tokenRes.data.type}/${tokenRes.data.id}`,
+  //       {
+  //         headers: { "x-auth-token": token },
+  //       }
+  //     );
+  //     setUserData({
+  //       token,
+  //       user: userRes.data,
+  //       type: tokenRes.data.type,
+  //     });
+  //     // setAuth(true)
+  //   }
+  // };
+  // useEffect(() => {
+  //   checkLoggedIn();
+  // }, []);
+  // useEffect(() => {
+  //   console.log(userData);
+  // });
   return (
     <CacheProvider value={emotionCache}>
       <UserContext.Provider value={{userData, setUserData}}>
@@ -71,6 +72,7 @@ const App = (props) => {
               content="initial-scale=1, width=device-width"
             />
           </Head>
+          <AuthEnforce />
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <ThemeProvider theme={theme}>
               <CssBaseline />
