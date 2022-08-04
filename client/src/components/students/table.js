@@ -1,21 +1,20 @@
 import { Table, TableHead, TableRow, TableBody, TableCell, Typography, TableContainer, Paper } from "@mui/material";
 
-const ProjectsTable = (props) => {
+const StudentsTable = (props) => {
   return (
     <>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-                <TableCell>Timestamp</TableCell>
                 <TableCell>Name</TableCell>
-                <TableCell>Organization</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell>Student Profile</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Group</TableCell>
+                <TableCell>Profile</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.projects.map((row, idx) => (
+            {props.students.map((row, idx) => (
               <TableRow
                 hover
                 // selected={selectedSkill === idx + 1}
@@ -24,16 +23,13 @@ const ProjectsTable = (props) => {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.timestamp}
-                </TableCell>
-                <TableCell component="th" scope="row">
                   {row.name}
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {row.organization}
+                  {row.email}
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {row.status}
+                  {row.group}
                 </TableCell>
                 <TableCell component="th" scope="row">
                   {row.profile}
@@ -48,4 +44,4 @@ const ProjectsTable = (props) => {
   );
 };
 
-export default ProjectsTable;
+export default StudentsTable;
