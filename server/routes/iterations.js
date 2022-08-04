@@ -14,8 +14,8 @@ var { studentModel, partnerModel } = require("../models/User");
 
 router.route("/").post(async (req, res) => {
   try {
-    const Iteration = req.body;
-    return await addIterationToDatabase(Iteration, req, res);
+    let iteration = req.body;
+    return await addIterationToDatabase(iteration, req, res);
   } catch (err) {
     return res.status(500).send(err.message);
   }
@@ -73,6 +73,15 @@ router.route("/:id").get(async (req, res) => {
   }
 });
 
+router.route("/:iteration_id/groups").get(async (req, res) => {
+  try {
+    const iteration_id = ObjectId(req.params.iteration_id);
+    return await getTeamsFromIteration(iteration_id, req, res);
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+});
+
 router.route("/:iteration_id/matching").post(async (req, res) => {
   try {
     const iteration_id = ObjectId(req.params.iteration_id);
@@ -81,6 +90,51 @@ router.route("/:iteration_id/matching").post(async (req, res) => {
     return res.status(500).send(err.message);
   }
 });
+
+function getTeamsFromIteration(iteration_id, req, res) {
+  return iterationModel
+    .findById(iteration_id)
+    .then(iteration => {
+      return res.status(200).send(iteration.teams);
+    })
+    .catch(err => {
+      return res.status(500).send(err.message);
+    });
+}
+
+function getGroups(iteration_id, req, res) {
+  return iterationModel
+    .findById(iteration_id)
+    .then((iteration) => {
+      return projectModel
+        .find({
+          _id: { $in: iteration.projects },
+        })
+        .then((projects) => {
+          return studentModel
+            .find({
+              _id: { $in: iteration.students },
+            })
+            .then((students) => {
+              return partnerModel
+                .find({
+                  _id: { $in: iteration.partners },
+                })
+                .then((partners) => {
+                  let teams = [];
+                  let teamSize = Math.floor(students.length / teams.length);
+                  for (let i = 0; i < teams.length; i++) {
+                    teams.push(students.slice(i * teamSize, (i + 1) * teamSize));
+                  }
+                  return res.status(200).json(teams);
+                });
+            });
+        });
+    })
+    .catch((err) => {
+      return res.status(500).send(err.message);
+    });
+}
 
 async function getAllIterations(req, res) {
   return iterationModel
@@ -101,6 +155,11 @@ async function getAllIterations(req, res) {
 }
 
 function addIterationToDatabase(iteration, req, res) {
+  for (let i = 0; i < 100; i++) {
+    iteration.teams.push({
+      group_name: "Group " + i
+    });
+  }
   return iterationModel
     .create(iteration)
     .then((iteration) => {
@@ -113,7 +172,7 @@ function addIterationToDatabase(iteration, req, res) {
 
 function updateIterationInDatabase(id, iteration, req, res) {
   return iterationModel
-    .findByIdAndUpdate(id, Iteration, { new: true })
+    .findByIdAndUpdate(id, iteration, { new: true })
     .then((iteration) => {
       return res.status(200).json(iteration);
     })

@@ -3,14 +3,16 @@ import { Box, Container, Grid, Tabs, Tab, Typography } from "@mui/material";
 import { DashboardLayout } from "../../../components/dashboard-layout";
 import { NavPath } from "src/components/nav-path";
 import { SkillSelector } from "src/components/skills-qualifications/skill-selector";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Swal from "sweetalert2";
 import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import ProjectsTable from "src/components/reviewed-projects/table";
 import Axios from "axios";
-import StudentsTable from "src/components/students/table";
+import StudentsTable from "src/components/students/student_table";
+import GroupsTable from "src/components/students/group_table";
+import IterationsContext from "src/context/IterationsContext";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -40,7 +42,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
+    // vertical padding + font size from searchPeopleIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
@@ -73,10 +75,13 @@ function TabPanel(props) {
 }
 const Students = () => {
   const [tab, setTab] = useState(0);
-  const [search, setSearch] = useState("");
+  const [searchPeople, setSearchPeople] = useState("");
+  const [searchGroups, setSearchGroups] = useState("");
   const [students, setStudents] = useState([]);
   const [studentsFiltered, setStudentsFiltered] = useState([]);
   const [groups, setGroups] = useState([]);
+  const [groupsFiltered, setGroupsFiltered] = useState([]);
+  const {iterations} = useContext(IterationsContext);
   const handleChange = (event, newValue) => {
     setTab(newValue);
   };
@@ -87,13 +92,21 @@ const Students = () => {
   };
   const getStudents = () => {
     const courseId = getIterationIdFromURL();
-    const url = `http://localhost:5000/users/student/iteration/${getIterationIdFromURL()}`;
+    const url = `http://localhost:5000/users/student/iteration/${courseId}`;
     Axios.get(url).then((res) => {
       setStudents(res.data);
     });
   };
-  const filterStudents = (search) => {
-    const filtered = students.filter((student) => student.first_name.includes(search)).map((student) => {
+  const getGroups = () => {
+    const courseId = getIterationIdFromURL();
+    const url = `http://localhost:5000/iterations/${courseId}/groups`;
+    Axios.get(url).then((res) => {
+      setGroups(res.data);
+    }
+    );
+  }
+  const filterStudents = (searchPeople) => {
+    const filtered = students.filter((student) => student.first_name.includes(searchPeople)).map((student) => {
       return ({
         name: student.first_name+" "+student.last_name,
         email: student.email,
@@ -104,15 +117,25 @@ const Students = () => {
     
     setStudentsFiltered(filtered);  
   }
+  const filterGroups = (searchGroup) => {
+    const filtered = groups.filter((group) => group.group_name.includes(searchGroup)).map((group) => {
+      return (group)
+    });
+    
+    setGroupsFiltered(filtered);  
+  }
   useEffect(() => {
     getStudents();
+    getGroups();
   }, []);
   useEffect(() => {
-    filterStudents(search)
-  }, [search, students]);
+    filterStudents(searchPeople)
+  }, [searchPeople, students]);
   useEffect(() => {
-    console.log(studentsFiltered);
-    console.log(students)
+    filterGroups(searchGroups)
+  }, [searchGroups, groups]);
+  useEffect(() => {
+    console.log(groupsFiltered);
   });
   return (
     <>
@@ -146,11 +169,11 @@ const Students = () => {
               <TabPanel value={tab} index={0}>
                 <Grid container spacing={3}>
                   <Grid item mr={3} lg={12} sm={12} xl={12} xs={12}>
-                    <Search onChange={(e) => setSearch(e.target.value)}>
+                    <Search onChange={(e) => setSearchPeople(e.target.value)}>
                       <SearchIconWrapper>
                         <SearchIcon />
                       </SearchIconWrapper>
-                      <StyledInputBase placeholder="Search People" inputProps={{ "aria-label": "search" }} />
+                      <StyledInputBase placeholder="Search People" inputProps={{ "aria-label": "searchPeople" }} />
                     </Search>
                   </Grid>
                   <Grid item mr={3} lg={12} sm={12} xl={12} xs={12}>
@@ -159,7 +182,19 @@ const Students = () => {
                 </Grid>
               </TabPanel>
               <TabPanel value={tab} index={1}>
-                Groups division
+                <Grid container spacing={3}>
+                  <Grid item mr={3} lg={12} sm={12} xl={12} xs={12}>
+                    <Search onChange={(e) => setSearchGroups(e.target.value)}>
+                      <SearchIconWrapper>
+                        <SearchIcon />
+                      </SearchIconWrapper>
+                      <StyledInputBase placeholder="Search Groups" inputProps={{ "aria-label": "searchGroups" }} />
+                    </Search>
+                  </Grid>
+                  <Grid item mr={3} lg={12} sm={12} xl={12} xs={12}>
+                    <GroupsTable groups={groupsFiltered} />
+                  </Grid>
+                </Grid>
               </TabPanel>
             </Grid>
           </Grid>
