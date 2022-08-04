@@ -7,6 +7,7 @@ import { Box, Button, Container, Grid, Link, TextField, Typography, FormControlL
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { HomepageLayout } from 'src/components/homepage-layout';
 import Axios from 'axios';
+import AuthEnforce from 'src/enforce/AuthEnforce';
 
 const Register = () => {
   const router = useRouter();
@@ -85,6 +86,7 @@ const Register = () => {
           }}
         >
           <Container maxWidth="sm">
+            <AuthEnforce />
             <NextLink
               href="/"
               passHref

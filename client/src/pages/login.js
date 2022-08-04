@@ -11,6 +11,7 @@ import { HomepageLayout } from 'src/components/homepage-layout';
 import Axios from "axios";
 import UserContext from 'src/context/UserContext';
 import { useContext } from 'react';
+import AuthEnforce from 'src/enforce/AuthEnforce';
 
 const Login = () => {
   const router = useRouter();
@@ -68,6 +69,7 @@ const Login = () => {
           }}
         >
           <Container maxWidth="sm">
+            <AuthEnforce />
             <NextLink
               href="/"
               passHref

@@ -1,6 +1,9 @@
-import { Accordion, AccordionSummary, AccordionDetails, Typography } from "@mui/material";
+import { Accordion, AccordionSummary, AccordionDetails, Typography, Button, Grid } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 const GroupsTable = (props) => {
+  const joinGroup = (group) => {
+    console.log(group);
+  }
   return (
     <>
       {props.groups.map((row, idx) => (
@@ -8,10 +11,17 @@ const GroupsTable = (props) => {
           <Accordion key={idx} stayOpen>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
+              // aria-controls="panel1a-content"
               id="panel1a-header"
             >
-              <Typography>{row.group_name}</Typography>
+              <Grid container spacing={3}>
+                <Grid item lg={9} sm={9} xl={9} xs={9}>
+                  <Typography>{row.group_name}</Typography>
+                </Grid>
+                <Grid item lg={3} sm={3} xl={3} xs={3}>
+                  <Button variant="contained" onClick={() => joinGroup(row)}>Join</Button>
+                </Grid>
+              </Grid>
             </AccordionSummary>
             <AccordionDetails>
               <Typography>

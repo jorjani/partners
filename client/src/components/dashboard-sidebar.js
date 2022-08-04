@@ -9,42 +9,6 @@ import { Logo } from "./logo";
 import { NavItem } from "./nav-item";
 import IterationsContext from "src/context/IterationsContext";
 
-const items = [
-  {
-    href: "/dashboard",
-    icon: <ChartBarIcon fontSize="small" />,
-    title: "Dashboard",
-    collapse: false,
-  },
-  {
-    href: "/course/csc301h",
-    title: "CSC301H1",
-    collapse: true,
-    children: [
-      {
-        href: "/course/csc301h1/overview",
-        title: "Course Overview",
-      },
-      {
-        href: "/course/csc301h1/skills-qualifications",
-        title: "Skills & Qualifications",
-      },
-      {
-        href: "/course/csc301h1/reviewed-projects",
-        title: "Reviewed Projects",
-      },
-      {
-        href: "/course/csc301h1/students",
-        title: "Students",
-      },
-      {
-        href: "/course/csc301h1/puiblished-projects",
-        title: "Published Projects",
-      },
-    ],
-  },
-];
-
 export const DashboardSidebar = (props) => {
   const { open, onClose } = props;
   const [items, setItems] = useState([
@@ -76,36 +40,38 @@ export const DashboardSidebar = (props) => {
   );
   useEffect(() => {
     let curItems = items;
-    if (iterations.length > 0) {
-      curItems = items.concat(
-        iterations.map((iteration, index) => ({
-          href: `/course/${iteration.name}`,
+    let curIterationNames = iterations.map((iteration) => iteration.name);
+    for(let i=0; i<iterations.length; i++) {
+      // if the iteration is not in the items, add it
+      if (!curItems.find((item) => item.title === curIterationNames[i])) {
+        curItems.push({
+          href: `/course/${iterations[i].name}`,
           title: iteration.name,
           collapse: true,
           children: [
             {
-              href: `/course/${iteration._id}/overview`,
+              href: `/course/${iterations[i]._id}/overview`,
               title: "Course Overview",
             },
             {
-              href: `/course/${iteration._id}/skills-qualifications`,
+              href: `/course/${iterations[i]._id}/skills-qualifications`,
               title: "Skills & Qualifications",
             },
             {
-              href: `/course/${iteration._id}/reviewed-projects`,
+              href: `/course/${iterations[i]._id}/reviewed-projects`,
               title: "Reviewed Projects",
             },
             {
-              href: `/course/${iteration._id}/students`,
+              href: `/course/${iterations[i]._id}/students`,
               title: "Students",
             },
             {
-              href: `/course/${iteration._id}/published-projects`,
+              href: `/course/${iterations[i]._id}/published-projects`,
               title: "Published Projects",
             },
           ],
-        }))
-      );
+        });
+      }
     }
     setItems(curItems);
   }, [iterations]);

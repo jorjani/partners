@@ -4,6 +4,7 @@ import { UserInfo } from "../components/dashboard/user-info";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { CourseViewer } from "../components/dashboard/course-viewer";
 import { NavPath } from "src/components/nav-path";
+import AuthEnforce from 'src/enforce/AuthEnforce';
 
 const Dashboard = () => (
   <>
@@ -18,6 +19,7 @@ const Dashboard = () => (
       }}
     >
       <Container maxWidth={false}>
+        <AuthEnforce />
         <Grid container spacing={3}>
           <Grid item lg={12} sm={12} xl={12} xs={12}>
             <NavPath />

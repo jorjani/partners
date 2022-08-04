@@ -40,11 +40,12 @@ export default function AuthEnforce() {
             }
         }
     }
-    React.useEffect(() => {
-        controlAccess();
-    });
+    // React.useEffect(() => {
+    //     controlAccess();
+    // });
     React.useEffect(() => {
         checkLoggedIn();
+        controlAccess();
     }, []);
     return (<></>);
 }
