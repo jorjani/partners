@@ -127,16 +127,13 @@ const Students = () => {
   useEffect(() => {
     getStudents();
     getGroups();
-  }, []);
+  }, [iterations]);
   useEffect(() => {
     filterStudents(searchPeople)
   }, [searchPeople, students]);
   useEffect(() => {
     filterGroups(searchGroups)
   }, [searchGroups, groups]);
-  useEffect(() => {
-    console.log(groupsFiltered);
-  });
   return (
     <>
       <Head>

@@ -46,7 +46,7 @@ export const DashboardSidebar = (props) => {
       if (!curItems.find((item) => item.title === curIterationNames[i])) {
         curItems.push({
           href: `/course/${iterations[i].name}`,
-          title: iteration.name,
+          title: iterations[i].name,
           collapse: true,
           children: [
             {

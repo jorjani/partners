@@ -21,6 +21,17 @@ router.route("/").post(async (req, res) => {
   }
 });
 
+router.route("/:id/groups/:group_id/join").post(async (req, res) => {
+  try {
+    let iterationId = req.params.id;
+    let groupId = req.params.group_id;
+    return await joinGroup(iterationId, groupId, req, res);
+  }
+  catch (err) {
+    return res.status(500).send(err.message);
+  }
+});
+
 router.route("/:id/projects/:project_id").post(async (req, res) => {
   try {
     const id = ObjectId(req.params.id);
@@ -90,6 +101,29 @@ router.route("/:iteration_id/matching").post(async (req, res) => {
     return res.status(500).send(err.message);
   }
 });
+
+async function joinGroup(iterationId, groupId, req, res) {
+  return iterationModel
+    .findById(iterationId)
+    .then(async (iteration) => {
+      let curUser = new studentModel(req.body);
+      iteration.teams.forEach((team) => {
+        if (team._id == groupId) {
+          if (!team.members.some((member) => member.email == curUser.email)) {
+            team.members.push(curUser);
+          }else{
+            return res.status(400).send("User already in team");
+          }
+        }
+      })
+      let saveRes = iteration.save();
+      if(saveRes){
+        return await getAllIterations(req, res);
+      } else {
+        return res.status(500).send(err.message);
+      }
+    })
+}
 
 function getTeamsFromIteration(iteration_id, req, res) {
   return iterationModel

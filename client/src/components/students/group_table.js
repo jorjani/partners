@@ -1,8 +1,56 @@
 import { Accordion, AccordionSummary, AccordionDetails, Typography, Button, Grid } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Axios from "axios";
+import UserContext from "src/context/UserContext";
+import IterationsContext from "src/context/IterationsContext";
+import Swal from "sweetalert2";
+import { useContext, useEffect } from "react";
+
 const GroupsTable = (props) => {
+  const { userData } = useContext(UserContext);
+  const { iterations, setIterations } = useContext(IterationsContext);
+  const getCourseFromURL = () => {
+    const url = window.location.href;
+    const courseId = url.split('/')[4];
+    return courseId;
+  }
+
   const joinGroup = (group) => {
-    console.log(group);
+    console.log(userData)
+    if(!userData.user){
+      Swal.fire({
+        title: "You must be logged in to join a group",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Login"
+      }).then((result) => {
+        if (result.value) {
+          window.location.href = "/login";
+        }
+      }).catch(err => {
+        console.log(err);
+      }
+      );
+    }
+    Axios.post(`http://localhost:5000/iterations/${getCourseFromURL()}/groups/${group._id}/join`, userData.user).then(res => {
+      setIterations(res.data);  
+    Swal.fire({
+        title: "Success!",
+        text: "You have successfully joined the group!",
+        icon: "success",
+        confirmButtonText: "Cool"
+      });
+    })
+    .catch(err => {
+      Swal.fire({
+        title: "Error!",
+        text: "You have already joined the group!",
+        icon: "error",
+        confirmButtonText: "Cool"
+      });
+    });
   }
   return (
     <>
@@ -26,7 +74,7 @@ const GroupsTable = (props) => {
             <AccordionDetails>
               <Typography>
                 {row.members.map((member, idx) => (
-                  <Typography>{member.name}</Typography>
+                  <Typography>{member.first_name+" "+member.last_name}</Typography>
                 ))}
               </Typography>
             </AccordionDetails>
