@@ -84,23 +84,23 @@ export const DashboardSidebar = (props) => {
           collapse: true,
           children: [
             {
-              href: `/course/${iteration.name}/overview`,
+              href: `/course/${iteration._id}/overview`,
               title: "Course Overview",
             },
             {
-              href: `/course/${iteration.name}/skills-qualifications`,
+              href: `/course/${iteration._id}/skills-qualifications`,
               title: "Skills & Qualifications",
             },
             {
-              href: `/course/${iteration.name}/reviewed-projects`,
+              href: `/course/${iteration._id}/reviewed-projects`,
               title: "Reviewed Projects",
             },
             {
-              href: `/course/${iteration.name}/students`,
+              href: `/course/${iteration._id}/students`,
               title: "Students",
             },
             {
-              href: `/course/${iteration.name}/published-projects`,
+              href: `/course/${iteration._id}/published-projects`,
               title: "Published Projects",
             },
           ],

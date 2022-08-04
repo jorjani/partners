@@ -34,15 +34,23 @@ const projectConfigSchema = new Schema({
     coworkers: {type: Boolean, required: true}
 })
 
+const studentProfileSchema = new Schema({
+    status: {type: String, required: true, default: "pending"},
+    categories: {type: [Object], required: true, default: []},
+});
+
 const projectSchema = new Schema({
     name: {type: String, required: true},
-    organization: {type: ObjectId, required: true},
+    organization_id: {type: ObjectId, required: true},
+    iteration_id: {type: ObjectId, required: true},
     status: {type: String, required: true, enum: ['pending', 'submitted', 'admitted', 'conditionally-accepted', 'not-accepted'], default: 'pending'},
     category: {type: [String]},
     team: {type: teamSchema, default: {}},
     start_date: {type: Date, required: true, default: Date.now},
     end_date: {type: Date, required: true, default: Date.now},
-    config: {type: projectConfigSchema}
+    config: {type: projectConfigSchema},
+    student_profile: {type: studentProfileSchema},
+    created_at: {type: Date, required: true, default: Date.now},
 })
 
 const projectModel = mongoose.model('Project', projectSchema);

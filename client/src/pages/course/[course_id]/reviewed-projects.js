@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { Box, Container, Grid, Typography } from "@mui/material";
+import { Box, Container, Grid, Table, Typography } from "@mui/material";
 import { DashboardLayout } from "../../../components/dashboard-layout";
 import { NavPath } from "src/components/nav-path";
 import { SkillSelector } from "src/components/skills-qualifications/skill-selector";
@@ -8,6 +8,8 @@ import Swal from "sweetalert2";
 import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
+import ProjectsTable from "src/components/reviewed-projects/table";
+import Axios from "axios";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -53,14 +55,45 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const ReviewedProjects = () => {
   const [skillList, setSkillList] = useState([]);
   const [search, setSearch] = useState("");
-  const getCourseFromURL = () => {
+  const [projects, setProjects] = useState([]);
+  const getIterationIdFromURL = () => {
     const url = window.location.href;
     const courseId = url.split("/")[4];
     return courseId;
   };
+  const getProjects = () => {
+    const courseId = getIterationIdFromURL();
+    const url = `http://localhost:5000/projects/iteration/${courseId}`;
+    Axios.get(url).then((res) => {
+      setProjects(formatProjects(res.data));
+    });
+  };
+  const formatProjects = (projects) => {
+    const formattedProjects = projects.map((project) => {
+      const { name, organization_name, status, created_at, student_profile } = project;
+      return {
+        name,
+        organization: organization_name,
+        status,
+        timestamp: formatTimeStamp(created_at),
+        profile: student_profile.status,
+      };
+    });
+    return formattedProjects;
+  };
+  const formatTimeStamp = (timestamp) => {
+    const date = new Date(timestamp);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+  };
   useEffect(() => {
-    console.log(skillList);
-  }, [skillList]);
+    getProjects();
+  }, []);
   return (
     <>
       <Head>
@@ -91,7 +124,9 @@ const ReviewedProjects = () => {
                 <StyledInputBase placeholder="Search…" inputProps={{ "aria-label": "search" }} />
               </Search>
             </Grid>
-            <Grid item lg={12} sm={12} xl={12} xs={12}></Grid>
+            <Grid item lg={12} sm={12} xl={12} xs={12}>
+              <ProjectsTable projects={projects} />
+            </Grid>
           </Grid>
         </Container>
       </Box>

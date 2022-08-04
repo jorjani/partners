@@ -6,6 +6,7 @@ var bodyParser = require("body-parser");
 var jsonParser = bodyParser.json();
 var ObjectId = require("mongodb").ObjectId;
 var { projectModel } = require("../models/Project");
+var { organizationModel } = require("../models/Organization");
 
 // POST
 
@@ -57,6 +58,29 @@ router.route("/:id").get(async (req, res) => {
 }
 );
 
+router.route("/iteration/:id").get(async (req, res) => {
+    try {
+        const id = ObjectId(req.params.id);
+        return await getProjectByIteration(id, req, res);
+    } catch (err) {
+        return res.status(500).send(err.message);
+    }
+}
+);
+
+async function getProjectByIteration(id, req, res) {
+    let projects = await projectModel.find({ iteration_id: id });
+    // get organization by organization_id in each of the docs
+    let projectLst = []
+    for(let i=0; i<projects.length; i++) {
+        let organization = await organizationModel.findOne({ _id: projects[i].organization_id });
+        projectLst.push({
+            ...projects[i].toJSON(),
+            organization_name: organization.name
+        });
+    }
+    return res.status(200).json(projectLst);
+}
 
 function addProjectToDatabase(project, req, res) {
     return projectModel.create(project)
