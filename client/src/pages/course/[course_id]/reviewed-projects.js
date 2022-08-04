@@ -56,6 +56,7 @@ const ReviewedProjects = () => {
   const [skillList, setSkillList] = useState([]);
   const [search, setSearch] = useState("");
   const [projects, setProjects] = useState([]);
+  const [projectsFormatted, setProjectsFormatted] = useState([]);
   const getIterationIdFromURL = () => {
     const url = window.location.href;
     const courseId = url.split("/")[4];
@@ -65,20 +66,22 @@ const ReviewedProjects = () => {
     const courseId = getIterationIdFromURL();
     const url = `http://localhost:5000/projects/iteration/${courseId}`;
     Axios.get(url).then((res) => {
-      setProjects(formatProjects(res.data));
+      setProjects(res.data);
     });
   };
   const formatProjects = (projects) => {
-    const formattedProjects = projects.map((project) => {
-      const { name, organization_name, status, created_at, student_profile } = project;
-      return {
-        name,
-        organization: organization_name,
-        status,
-        timestamp: formatTimeStamp(created_at),
-        profile: student_profile.status,
-      };
-    });
+    const formattedProjects = projects
+      .filter((project) => project.name.includes(search))
+      .map((project) => {
+        const { name, organization_name, status, created_at, student_profile } = project;
+        return {
+          name,
+          organization: organization_name,
+          status,
+          timestamp: formatTimeStamp(created_at),
+          profile: student_profile.status,
+        };
+      });
     return formattedProjects;
   };
   const formatTimeStamp = (timestamp) => {
@@ -94,6 +97,13 @@ const ReviewedProjects = () => {
   useEffect(() => {
     getProjects();
   }, []);
+  useEffect(() => {
+    const formattedProjects = formatProjects(projects);
+    setProjectsFormatted(formattedProjects);
+  }, [search]);
+  useEffect(() => {
+    setProjectsFormatted(formatProjects(projects));
+  }, [projects]);
   return (
     <>
       <Head>
@@ -125,7 +135,7 @@ const ReviewedProjects = () => {
               </Search>
             </Grid>
             <Grid item lg={12} sm={12} xl={12} xs={12}>
-              <ProjectsTable projects={projects} />
+              <ProjectsTable projects={projectsFormatted} />
             </Grid>
           </Grid>
         </Container>
