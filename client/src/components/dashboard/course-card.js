@@ -1,8 +1,12 @@
 import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
 import { useState } from 'react';
 export const CourseCard = (props) => {
+    const navigate = (id) => {
+        window.location.href = `/course/${id}/overview`;
+    }
     return (
         <Card
+            onClick={() => navigate(props.course_id)}
             sx={{ height: '100%', marginLeft: '10px', marginRight: '10px' }}
             {...props}
         >

@@ -9,19 +9,6 @@ import Swal from "sweetalert2";
 import Axios from "axios";
 import IterationsContext from "src/context/IterationsContext";
 
-// const iterations = [
-//     {
-//         course_code: 'CSC301',
-//         course_title: 'Introduction to Software Engineering',
-//         course_session: 'Fall'
-//     },
-//     {
-//         course_code: 'CSC384',
-//         course_title: 'Introduction to Artificial Intelligence',
-//         course_session: 'Winter'
-//     }
-// ]
-
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -73,22 +60,11 @@ export const CourseViewer = () => {
       setFilteredList(iterations.filter((course) => course.name.includes(search)));
     }
   }, [search, iterations]);
-  // useEffect(() => {
-  //     Axios.get('http://localhost:5000/iterations/').then(res => {
-  //         console.log(res.data);
-  //         setIterations(res.data);
-  //         // setIterations(res.data);
-  //     }).catch(err => {
-  //         console.log(err);
-  //     });
-  // }, []);
-  useEffect(() => {
-    console.log(iterations);
-  });
   const getCourses = () => {
     let res = filteredList.map((course, index) => (
       <CourseCard
         key={index}
+        course_id={course._id}
         course_code={course.name}
         course_title={course.course_title}
         course_organization={course.organization}
