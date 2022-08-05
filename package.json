@@ -3,11 +3,7 @@
     "axios": "^0.27.2"
   },
   "scripts": {
-    "heroku-postbuild": "npm run setup-client && npm run setup-server",
-    "build": "cd client && npm run export",
-    "setup-client": "cd client && npm install && npm run build && cd ..",
-    "setup-server": "cd server && npm install && cd ..",
-    "backend": "cd server && npm run start",
+    "build": "cd client && npm install && npm run export && cd .. && cd server && npm install",
     "start": "cd server && npm run start"
   }
 }
