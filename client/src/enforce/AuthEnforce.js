@@ -26,7 +26,7 @@ export default function AuthEnforce() {
                 user: userRes.data,
                 type: tokenRes.data.type,
             });
-            // setAuth(true)
+            
         }
     };
     const controlAccess = () => {
@@ -40,9 +40,9 @@ export default function AuthEnforce() {
             }
         }
     }
-    // React.useEffect(() => {
-    //     controlAccess();
-    // });
+    React.useEffect(() => {
+        controlAccess();
+    });
     React.useEffect(() => {
         checkLoggedIn();
         controlAccess();

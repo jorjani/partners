@@ -54,7 +54,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const ReviewedProjects = () => {
-  const [skillList, setSkillList] = useState([]);
   const [search, setSearch] = useState("");
   const [projects, setProjects] = useState([]);
   const [projectsFormatted, setProjectsFormatted] = useState([]);
@@ -108,7 +107,7 @@ const ReviewedProjects = () => {
   return (
     <>
       <Head>
-        <title>Reviewed Projects | Athena</title>
+        <title>Recieved Projects | Athena</title>
       </Head>
       <Box
         component="main"
@@ -125,7 +124,7 @@ const ReviewedProjects = () => {
             </Grid>
             <Grid item lg={4} sm={4} xl={4} xs={4}>
               <Typography color="textPrimary" variant="h4">
-                Reviewed Projects
+                Recieved Projects
               </Typography>
             </Grid>
             <Grid item mr={3} lg={12} sm={12} xl={12} xs={12}>
