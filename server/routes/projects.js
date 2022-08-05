@@ -68,6 +68,30 @@ router.route("/iteration/:id").get(async (req, res) => {
 }
 );
 
+router.route("/iteration/:id/published").get(async (req, res) => {
+    try {
+        const id = ObjectId(req.params.id);
+        return await getPublishedProjectsByIteration(id, req, res);
+    } catch (err) {
+        return res.status(500).send(err.message);
+    }
+}
+);
+
+async function getPublishedProjectsByIteration(id, req, res) {
+    let projects = await projectModel.find({ iteration_id: id, status: 'published' });
+    // get organization by organization_id in each of the docs
+    let projectLst = []
+    for(let i=0; i<projects.length; i++) {
+        let organization = await organizationModel.findOne({ _id: projects[i].organization_id });
+        projectLst.push({
+            ...projects[i].toJSON(),
+            organization_name: organization.name
+        });
+    }
+    return res.status(200).json(projectLst);
+}
+
 async function getProjectByIteration(id, req, res) {
     let projects = await projectModel.find({ iteration_id: id });
     // get organization by organization_id in each of the docs
