@@ -9,6 +9,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
+import AuthEnforce from 'src/enforce/AuthEnforce';
 
 const ProposalInvitation = () => {
   const [editable, setEditable] = useState(false);
@@ -86,6 +87,7 @@ const ProposalInvitation = () => {
         }}
       >
         <Container maxWidth={false}>
+          <AuthEnforce />
           <Grid
             container
             spacing={3}

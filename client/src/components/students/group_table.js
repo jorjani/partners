@@ -14,10 +14,24 @@ const GroupsTable = (props) => {
     const courseId = url.split('/')[4];
     return courseId;
   }
-
+  const userInGroup = (group) => {
+    let user = userData.user;
+    if (!user) {
+      return false;
+    }
+    //see if user is in group members
+    if (group.members.length > 0) {
+      for (let i = 0; i < group.members.length; i++) {
+        if (group.members[i]._id == user._id) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
   const joinGroup = (group) => {
     console.log(userData)
-    if(!userData.user){
+    if (!userData.user) {
       Swal.fire({
         title: "You must be logged in to join a group",
         icon: "warning",
@@ -33,20 +47,50 @@ const GroupsTable = (props) => {
         console.log(err);
       }
       );
+    } else {
+      Axios.post(`http://localhost:5000/iterations/${getCourseFromURL()}/groups/${group._id}/join`, userData.user).then(res => {
+        setIterations(res.data);
+        Swal.fire({
+          title: "Success!",
+          text: "You have successfully joined the group!",
+          icon: "success",
+          confirmButtonText: "Cool"
+        });
+      }).catch(err => {
+        console.log(err)
+        if(err.response){
+          Swal.fire({
+            title: "Error!",
+            text: err.response.data,
+            icon: "error",
+            confirmButtonText: "Cool"
+          });
+        }else{
+          Swal.fire({
+            title: "Error!",
+            text: err.message,
+            icon: "error",
+            confirmButtonText: "Cool"
+          });
+        }
+        
+      });
     }
-    Axios.post(`http://localhost:5000/iterations/${getCourseFromURL()}/groups/${group._id}/join`, userData.user).then(res => {
-      setIterations(res.data);  
-    Swal.fire({
+  }
+  const leaveGroup = (group) => {
+    Axios.post(`http://localhost:5000/iterations/${getCourseFromURL()}/groups/${group._id}/leave`, userData.user).then(res => {
+      setIterations(res.data);
+      Swal.fire({
         title: "Success!",
-        text: "You have successfully joined the group!",
+        text: "You have successfully left the group!",
         icon: "success",
         confirmButtonText: "Cool"
       });
-    })
-    .catch(err => {
+    }).catch(err => {
+      console.log(err)
       Swal.fire({
         title: "Error!",
-        text: "You have already joined the group!",
+        text: err.message,
         icon: "error",
         confirmButtonText: "Cool"
       });
@@ -66,15 +110,23 @@ const GroupsTable = (props) => {
                 <Grid item lg={9} sm={9} xl={9} xs={9}>
                   <Typography>{row.group_name}</Typography>
                 </Grid>
-                <Grid item lg={3} sm={3} xl={3} xs={3}>
-                  <Button variant="contained" onClick={() => joinGroup(row)}>Join</Button>
-                </Grid>
+                {
+                  userInGroup(row) ? (
+                    <Grid item lg={3} sm={3} xl={3} xs={3}>
+                      <Button variant="contained" onClick={() => leaveGroup(row)}>Leave</Button>
+                    </Grid>
+                  ) : (
+                    <Grid item lg={3} sm={3} xl={3} xs={3}>
+                      <Button variant="contained" onClick={() => joinGroup(row)}>Join</Button>
+                    </Grid>
+                  )
+                }
               </Grid>
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
                 {row.members.map((member, idx) => (
-                  <Typography>{member.first_name+" "+member.last_name}</Typography>
+                  <Typography>{member.first_name + " " + member.last_name}</Typography>
                 ))}
               </Typography>
             </AccordionDetails>

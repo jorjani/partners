@@ -5,6 +5,7 @@ import { NavPath } from "src/components/nav-path";
 import { SkillSelector } from "src/components/skills-qualifications/skill-selector";
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
+import AuthEnforce from "src/enforce/AuthEnforce";
 
 const SkillsQualifications = () => {
   const [skillList, setSkillList] = useState([]);
@@ -29,6 +30,7 @@ const SkillsQualifications = () => {
         }}
       >
         <Container maxWidth={false}>
+          <AuthEnforce />
           <Grid container spacing={3}>
             <Grid item lg={9} sm={9} xl={9} xs={9}>
               <NavPath />

@@ -32,6 +32,17 @@ router.route("/:id/groups/:group_id/join").post(async (req, res) => {
   }
 });
 
+router.route("/:id/groups/:group_id/leave").post(async (req, res) => {
+  try {
+    let iterationId = req.params.id;
+    let groupId = req.params.group_id;
+    return await leaveGroup(iterationId, groupId, req, res);
+  }
+  catch (err) {
+    return res.status(500).send(err.message);
+  }
+});
+
 router.route("/:id/projects/:project_id").post(async (req, res) => {
   try {
     const id = ObjectId(req.params.id);
@@ -107,22 +118,64 @@ async function joinGroup(iterationId, groupId, req, res) {
     .findById(iterationId)
     .then(async (iteration) => {
       let curUser = new studentModel(req.body);
+      let found = false;
+      for (let i = 0; i < iteration.teams.length; i++) {
+        for (let j = 0; j < iteration.teams[i].members.length; j++) {
+          if (iteration.teams[i].members[j].email == curUser.email) {
+            return res.status(400).send("User already in a group");
+          }
+        }
+      }
+      if (found) {
+        return res.status(400).send("User already in a group");
+      }
       iteration.teams.forEach((team) => {
         if (team._id == groupId) {
           if (!team.members.some((member) => member.email == curUser.email)) {
             team.members.push(curUser);
-          }else{
+          } else {
             return res.status(400).send("User already in team");
           }
         }
       })
       let saveRes = iteration.save();
-      if(saveRes){
+      if (saveRes) {
         return await getAllIterations(req, res);
       } else {
         return res.status(500).send(err.message);
       }
     })
+}
+
+async function leaveGroup(iterationId, groupId, req, res) {
+  return iterationModel
+    .findById(iterationId)
+    .then(async (iteration) => {
+      let curUser = new studentModel(req.body);
+      let found = false;
+      for (let i = 0; i < iteration.teams.length; i++) {
+        if (iteration.teams[i]._id == groupId) {
+          for (let j = 0; j < iteration.teams[i].members.length; j++) {
+            if (iteration.teams[i].members[j].email == curUser.email) {
+              iteration.teams[i].members.splice(j, 1);
+              found = true;
+              break
+            }
+          }
+          break;
+        }
+      }
+      let saveRes = iteration.save();
+      if (saveRes) {
+        return await getAllIterations(req, res);
+      } else {
+        return res.status(500).send(err.message);
+      }
+    })
+    .catch(err => {
+      return res.status(500).send(err.message);
+    }
+    );
 }
 
 function getTeamsFromIteration(iteration_id, req, res) {
@@ -175,7 +228,7 @@ async function getAllIterations(req, res) {
     .find()
     .then(async (iterations) => {
       let ret = [];
-      for(let i = 0; i < iterations.length; i++) {
+      for (let i = 0; i < iterations.length; i++) {
         let curOrganization = await organizationModel.findById(iterations[i].organization);
         let curIteration = iterations[i].toObject();
         curIteration['organization'] = curOrganization.name;
@@ -319,44 +372,44 @@ function getWeights(team, projects) {
 
 function weightEvaluation(weightMatrix) {
   // Maximum bipartite matching
-    // Find a maximum matching of a bipartite graph given an adjacecy matrix weight
-    // The adjacecy matrix is a 2-Dimensional matrix (|teams| x |projects|)
-    return bipartiteMatching(weightMatrix);
+  // Find a maximum matching of a bipartite graph given an adjacecy matrix weight
+  // The adjacecy matrix is a 2-Dimensional matrix (|teams| x |projects|)
+  return bipartiteMatching(weightMatrix);
 }
 
 function bipartiteMatching(weightMatrix) {
   // Find a maximum matching of a bipartite graph given an adjacecy matrix weight
-    // The adjacecy matrix is a 2-Dimensional matrix (|teams| x |projects|)
-    let n = weightMatrix.length;
-    let m = weightMatrix[0].length;
-    let matching = [];
-    for (let i = 0; i < m; i++) {
-      matching.push(-1);
+  // The adjacecy matrix is a 2-Dimensional matrix (|teams| x |projects|)
+  let n = weightMatrix.length;
+  let m = weightMatrix[0].length;
+  let matching = [];
+  for (let i = 0; i < m; i++) {
+    matching.push(-1);
+  }
+  let assignedProjects = 0;
+  for (let i = 0; i < n; i++) {
+    let jobsSeen = new Array(m);
+    for (let j = 0; j < m; j++) {
+      jobsSeen[j] = false;
     }
-    let assignedProjects = 0;
-    for(let i = 0; i < n; i++) {
-        let jobsSeen = new Array(m);
-        for(let j = 0; j < m; j++) {
-            jobsSeen[j] = false;
-        }
-        if(bpm(weightMatrix, i, jobsSeen, matching)) {
-            assignedProjects++;
-        }
+    if (bpm(weightMatrix, i, jobsSeen, matching)) {
+      assignedProjects++;
     }
-    return matching;
+  }
+  return matching;
 }
 
 function bpm(weightMatrix, team, jobsSeen, matching) {
-    for(let j = 0; j < weightMatrix[0].length; j++) {
-        if(jobsSeen[j] == false && weightMatrix[team][j] > 0) {
-            jobsSeen[j] = true;
-            if(matching[j] < 0 || bpm(weightMatrix, matching[j], jobsSeen, matching)) {
-                matching[j] = team;
-                return true;
-            }
-        }
+  for (let j = 0; j < weightMatrix[0].length; j++) {
+    if (jobsSeen[j] == false && weightMatrix[team][j] > 0) {
+      jobsSeen[j] = true;
+      if (matching[j] < 0 || bpm(weightMatrix, matching[j], jobsSeen, matching)) {
+        matching[j] = team;
+        return true;
+      }
     }
-    return false;
+  }
+  return false;
 }
 
 function categoryMatching(team, project) {

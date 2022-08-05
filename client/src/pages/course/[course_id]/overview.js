@@ -9,15 +9,14 @@ import SaveIcon from "@mui/icons-material/Save";
 import ForwardToInboxIcon from "@mui/icons-material/ForwardToInbox";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import AuthEnforce from "src/enforce/AuthEnforce";
 
 const CourseOverview = () => {
   const [editable, setEditable] = useState(false);
   const formAction = () => {
     if (editable) {
-      console.log("save");
       setEditable(false);
     } else {
-      console.log("edit");
       setEditable(true);
     }
   };
@@ -118,6 +117,7 @@ const CourseOverview = () => {
         }}
       >
         <Container maxWidth={false}>
+          <AuthEnforce />
           <Grid container spacing={3}>
             <Grid item lg={9} sm={9} xl={9} xs={9}>
               <NavPath />

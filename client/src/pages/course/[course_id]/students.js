@@ -13,6 +13,7 @@ import Axios from "axios";
 import StudentsTable from "src/components/students/student_table";
 import GroupsTable from "src/components/students/group_table";
 import IterationsContext from "src/context/IterationsContext";
+import AuthEnforce from "src/enforce/AuthEnforce";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -147,6 +148,7 @@ const Students = () => {
         }}
       >
         <Container maxWidth={false}>
+          <AuthEnforce />
           <Grid container spacing={3}>
             <Grid item lg={9} sm={9} xl={9} xs={9}>
               <NavPath />

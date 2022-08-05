@@ -10,6 +10,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import ProjectsTable from "src/components/reviewed-projects/table";
 import Axios from "axios";
+import AuthEnforce from "src/enforce/AuthEnforce";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -117,6 +118,7 @@ const ReviewedProjects = () => {
         }}
       >
         <Container maxWidth={false}>
+          <AuthEnforce />
           <Grid container spacing={3}>
             <Grid item lg={9} sm={9} xl={9} xs={9}>
               <NavPath />
