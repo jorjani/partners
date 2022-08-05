@@ -8,7 +8,6 @@
     "build": "cd client && npm run build",
     "install-client": "cd client && npm install",
     "backend": "cd server & npm run start",
-    "frontend": "cd frontend & npm run dev",
     "start": "concurrently --kill-others-on-fail \"npm run start --prefix server\" \"npm run start --prefix client\""
   }
 }
