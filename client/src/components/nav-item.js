@@ -23,9 +23,12 @@ export const NavItem = (props) => {
           <ListItemText primary={title} />
 
         </ListItemButton>
-        <Collapse in={open} timeout="auto" unmountOnExit>
-          {children.map((item) => (
+        <Collapse in={open}
+timeout="auto"
+unmountOnExit>
+          {children.map((item, idx) => (
             <ListItem
+              key={idx}
               disableGutters
               sx={{
                 display: 'flex',

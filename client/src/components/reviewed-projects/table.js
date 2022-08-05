@@ -4,7 +4,8 @@ const ProjectsTable = (props) => {
   return (
     <>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table sx={{ minWidth: 650 }}
+aria-label="simple table">
           <TableHead>
             <TableRow>
                 <TableCell>Timestamp</TableCell>
@@ -23,19 +24,24 @@ const ProjectsTable = (props) => {
                 // onClick={() => setSelectedSkill(idx + 1)}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
+                <TableCell component="th"
+scope="row">
                   {row.timestamp}
                 </TableCell>
-                <TableCell component="th" scope="row">
+                <TableCell component="th"
+scope="row">
                   {row.name}
                 </TableCell>
-                <TableCell component="th" scope="row">
+                <TableCell component="th"
+scope="row">
                   {row.organization}
                 </TableCell>
-                <TableCell component="th" scope="row">
+                <TableCell component="th"
+scope="row">
                   {row.status}
                 </TableCell>
-                <TableCell component="th" scope="row">
+                <TableCell component="th"
+scope="row">
                   {row.profile}
                 </TableCell>
                 <TableCell align="right">{row.category}</TableCell>

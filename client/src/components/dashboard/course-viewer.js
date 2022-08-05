@@ -72,7 +72,9 @@ export const CourseViewer = () => {
       />
     ));
     res.push(
-      <Grid item ml={5} onClick={() => addCourse()}>
+      <Grid item
+ml={5}
+onClick={() => addCourse()}>
         <AddCircleOutlineIcon sx={{ fontSize: 40 }} />
       </Grid>
     );
@@ -93,16 +95,21 @@ export const CourseViewer = () => {
   return (
     <Card sx={{ height: "100%" }}>
       <CardContent>
-        <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
+        <Grid container
+spacing={3}
+sx={{ justifyContent: "space-between" }}>
           <Grid item>
-            <Typography color="textSecondary" gutterBottom variant="overline">
+            <Typography color="textSecondary"
+gutterBottom
+variant="overline">
               MY COURSES
             </Typography>
             <Search onChange={(e) => setSearch(e.target.value)}>
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
-              <StyledInputBase placeholder="Search…" inputProps={{ "aria-label": "search" }} />
+              <StyledInputBase placeholder="Search…"
+inputProps={{ "aria-label": "search" }} />
             </Search>
           </Grid>
         </Grid>

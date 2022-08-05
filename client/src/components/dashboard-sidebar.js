@@ -88,8 +88,13 @@ export const DashboardSidebar = (props) => {
           <Box sx={{ p: 3 }}>
             <NextLink href="/">
               <Container maxWidth={false}>
-                <Grid container spacing={3}>
-                  <Grid item lg={3} sm={3} xl={3} xs={3}>
+                <Grid container
+spacing={3}>
+                  <Grid item
+lg={3}
+sm={3}
+xl={3}
+xs={3}>
                     <Logo
                       sx={{
                         height: 42,
@@ -107,7 +112,8 @@ export const DashboardSidebar = (props) => {
                       marginTop: "8px",
                     }}
                   >
-                    <Typography color="white" variant="title">
+                    <Typography color="white"
+variant="title">
                       ATHENA
                     </Typography>
                   </Grid>
@@ -129,10 +135,12 @@ export const DashboardSidebar = (props) => {
               }}
             >
               <div>
-                <Typography color="inherit" variant="subtitle1">
+                <Typography color="inherit"
+variant="subtitle1">
                   Acme Inc
                 </Typography>
-                <Typography color="neutral.400" variant="body2">
+                <Typography color="neutral.400"
+variant="body2">
                   Your tier : Premium
                 </Typography>
               </div>

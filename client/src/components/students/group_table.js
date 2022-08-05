@@ -100,24 +100,40 @@ const GroupsTable = (props) => {
     <>
       {props.groups.map((row, idx) => (
         <>
-          <Accordion key={idx} stayOpen>
+          <Accordion key={idx}
+stayOpen>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               // aria-controls="panel1a-content"
               id="panel1a-header"
             >
-              <Grid container spacing={3}>
-                <Grid item lg={9} sm={9} xl={9} xs={9}>
+              <Grid container
+spacing={3}>
+                <Grid item
+lg={9}
+sm={9}
+xl={9}
+xs={9}>
                   <Typography>{row.group_name}</Typography>
                 </Grid>
                 {
                   userInGroup(row) ? (
-                    <Grid item lg={3} sm={3} xl={3} xs={3}>
-                      <Button variant="contained" onClick={() => leaveGroup(row)}>Leave</Button>
+                    <Grid item
+lg={3}
+sm={3}
+xl={3}
+xs={3}>
+                      <Button variant="contained"
+onClick={() => leaveGroup(row)}>Leave</Button>
                     </Grid>
                   ) : (
-                    <Grid item lg={3} sm={3} xl={3} xs={3}>
-                      <Button variant="contained" onClick={() => joinGroup(row)}>Join</Button>
+                    <Grid item
+lg={3}
+sm={3}
+xl={3}
+xs={3}>
+                      <Button variant="contained"
+onClick={() => joinGroup(row)}>Join</Button>
                     </Grid>
                   )
                 }
@@ -126,7 +142,7 @@ const GroupsTable = (props) => {
             <AccordionDetails>
               <Typography>
                 {row.members.map((member, idx) => (
-                  <Typography>{member.first_name + " " + member.last_name}</Typography>
+                  <Typography key={idx}>{member.first_name + " " + member.last_name}</Typography>
                 ))}
               </Typography>
             </AccordionDetails>

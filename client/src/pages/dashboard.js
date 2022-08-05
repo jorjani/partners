@@ -20,19 +20,37 @@ const Dashboard = () => (
     >
       <Container maxWidth={false}>
         <AuthEnforce />
-        <Grid container spacing={3}>
-          <Grid item lg={12} sm={12} xl={12} xs={12}>
+        <Grid container
+spacing={3}>
+          <Grid item
+lg={12}
+sm={12}
+xl={12}
+xs={12}>
             <NavPath />
           </Grid>
-          <Grid item lg={12} sm={12} xl={12} xs={12}>
-            <Typography color="textPrimary" variant="h4">
+          <Grid item
+lg={12}
+sm={12}
+xl={12}
+xs={12}>
+            <Typography color="textPrimary"
+variant="h4">
               Dashboard
             </Typography>
           </Grid>
-          <Grid item lg={6} sm={6} xl={6} xs={12}>
+          <Grid item
+lg={6}
+sm={6}
+xl={6}
+xs={12}>
             <UserInfo />
           </Grid>
-          <Grid item lg={8} md={12} xl={9} xs={12}>
+          <Grid item
+lg={8}
+md={12}
+xl={9}
+xs={12}>
             <CourseViewer />
           </Grid>
         </Grid>

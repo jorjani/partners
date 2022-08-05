@@ -18,9 +18,15 @@ const Home = () => (
       }}
     >
       <Container>
-        <Grid container spacing={3}>
-          <Grid item lg={12} sm={12} xl={12} xs={12}>
-            <Typography color="textPrimary" variant="h4">
+        <Grid container
+spacing={3}>
+          <Grid item
+lg={12}
+sm={12}
+xl={12}
+xs={12}>
+            <Typography color="textPrimary"
+variant="h4">
               Athena Homepage
             </Typography>
           </Grid>

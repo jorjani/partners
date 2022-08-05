@@ -149,48 +149,91 @@ const Students = () => {
       >
         <Container maxWidth={false}>
           <AuthEnforce />
-          <Grid container spacing={3}>
-            <Grid item lg={9} sm={9} xl={9} xs={9}>
+          <Grid container
+spacing={3}>
+            <Grid item
+lg={9}
+sm={9}
+xl={9}
+xs={9}>
               <NavPath />
             </Grid>
-            <Grid item lg={4} sm={4} xl={4} xs={4}>
-              <Typography color="textPrimary" variant="h4">
+            <Grid item
+lg={4}
+sm={4}
+xl={4}
+xs={4}>
+              <Typography color="textPrimary"
+variant="h4">
                 Students
               </Typography>
             </Grid>
-            <Grid item mr={3} lg={12} sm={12} xl={12} xs={12}>
+            <Grid item
+mr={3}
+lg={12}
+sm={12}
+xl={12}
+xs={12}>
               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs value={tab} onChange={handleChange} aria-label="basic tabs example">
+                <Tabs value={tab}
+onChange={handleChange}
+aria-label="basic tabs example">
                   <Tab label="Students" />
                   <Tab label="Groups" />
                 </Tabs>
               </Box>
-              <TabPanel value={tab} index={0}>
-                <Grid container spacing={3}>
-                  <Grid item mr={3} lg={12} sm={12} xl={12} xs={12}>
+              <TabPanel value={tab}
+index={0}>
+                <Grid container
+spacing={3}>
+                  <Grid item
+mr={3}
+lg={12}
+sm={12}
+xl={12}
+xs={12}>
                     <Search onChange={(e) => setSearchPeople(e.target.value)}>
                       <SearchIconWrapper>
                         <SearchIcon />
                       </SearchIconWrapper>
-                      <StyledInputBase placeholder="Search People" inputProps={{ "aria-label": "searchPeople" }} />
+                      <StyledInputBase placeholder="Search People"
+inputProps={{ "aria-label": "searchPeople" }} />
                     </Search>
                   </Grid>
-                  <Grid item mr={3} lg={12} sm={12} xl={12} xs={12}>
+                  <Grid item
+mr={3}
+lg={12}
+sm={12}
+xl={12}
+xs={12}>
                     <StudentsTable students={studentsFiltered} />
                   </Grid>
                 </Grid>
               </TabPanel>
-              <TabPanel value={tab} index={1}>
-                <Grid container spacing={3}>
-                  <Grid item mr={3} lg={12} sm={12} xl={12} xs={12}>
+              <TabPanel value={tab}
+index={1}>
+                <Grid container
+spacing={3}>
+                  <Grid item
+mr={3}
+lg={12}
+sm={12}
+xl={12}
+xs={12}>
                     <Search onChange={(e) => setSearchGroups(e.target.value)}>
                       <SearchIconWrapper>
                         <SearchIcon />
                       </SearchIconWrapper>
-                      <StyledInputBase placeholder="Search Groups" inputProps={{ "aria-label": "searchGroups" }} />
+                      <StyledInputBase placeholder="Search Groups"
+inputProps={{ "aria-label": "searchGroups" }} />
                     </Search>
                   </Grid>
-                  <Grid item mr={3} lg={12} sm={12} xl={12} xs={12}>
+                  <Grid item
+mr={3}
+lg={12}
+sm={12}
+xl={12}
+xs={12}>
                     <GroupsTable groups={groupsFiltered} />
                   </Grid>
                 </Grid>

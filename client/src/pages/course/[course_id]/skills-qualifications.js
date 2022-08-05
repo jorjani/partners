@@ -31,22 +31,43 @@ const SkillsQualifications = () => {
       >
         <Container maxWidth={false}>
           <AuthEnforce />
-          <Grid container spacing={3}>
-            <Grid item lg={9} sm={9} xl={9} xs={9}>
+          <Grid container
+spacing={3}>
+            <Grid item
+lg={9}
+sm={9}
+xl={9}
+xs={9}>
               <NavPath />
             </Grid>
-            <Grid item lg={4} sm={4} xl={4} xs={4}>
-              <Typography color="textPrimary" variant="h4">
+            <Grid item
+lg={4}
+sm={4}
+xl={4}
+xs={4}>
+              <Typography color="textPrimary"
+variant="h4">
                 Skills & Qualifications
               </Typography>
             </Grid>
-            <Grid item mr={3} lg={12} sm={12} xl={12} xs={12}>
-              <Typography color="textPrimary" variant="p">
-                Add skills and qualifications that are relevant to your course's students.
+            <Grid item
+mr={3}
+lg={12}
+sm={12}
+xl={12}
+xs={12}>
+              <Typography color="textPrimary"
+variant="p">
+                Add skills and qualifications that are relevant to your students.
               </Typography>
             </Grid>
-            <Grid item lg={12} sm={12} xl={12} xs={12}>
-              <SkillSelector list={skillList} setList={setSkillList} />
+            <Grid item
+lg={12}
+sm={12}
+xl={12}
+xs={12}>
+              <SkillSelector list={skillList}
+setList={setSkillList} />
             </Grid>
           </Grid>
         </Container>

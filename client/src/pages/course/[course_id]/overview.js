@@ -118,16 +118,31 @@ const CourseOverview = () => {
       >
         <Container maxWidth={false}>
           <AuthEnforce />
-          <Grid container spacing={3}>
-            <Grid item lg={9} sm={9} xl={9} xs={9}>
+          <Grid container
+spacing={3}>
+            <Grid item
+lg={9}
+sm={9}
+xl={9}
+xs={9}>
               <NavPath />
             </Grid>
-            <Grid item lg={4} sm={4} xl={4} xs={4}>
-              <Typography color="textPrimary" variant="h4">
+            <Grid item
+lg={4}
+sm={4}
+xl={4}
+xs={4}>
+              <Typography color="textPrimary"
+variant="h4">
                 Course Overview
               </Typography>
             </Grid>
-            <Grid item mr={3} lg={1} sm={2} xl={2} xs={2}>
+            <Grid item
+mr={3}
+lg={1}
+sm={2}
+xl={2}
+xs={2}>
               <Button
                 variant="outlined"
                 href="#outlined-buttons"
@@ -137,7 +152,12 @@ const CourseOverview = () => {
                 {!editable ? "Edit" : "Save"}
               </Button>
             </Grid>
-            <Grid item mr={5} lg={2} sm={2} xl={2} xs={2}>
+            <Grid item
+mr={5}
+lg={2}
+sm={2}
+xl={2}
+xs={2}>
               <Button
                 variant="contained"
                 href="#outlined-buttons"
@@ -147,7 +167,11 @@ const CourseOverview = () => {
                 Invite Partners
               </Button>
             </Grid>
-            <Grid item lg={2} sm={2} xl={2} xs={2}>
+            <Grid item
+lg={2}
+sm={2}
+xl={2}
+xs={2}>
               <Button
                 variant="contained"
                 href="#outlined-buttons"
@@ -157,7 +181,11 @@ const CourseOverview = () => {
                 Invite Students
               </Button>
             </Grid>
-            <Grid item lg={12} sm={12} xl={12} xs={12}>
+            <Grid item
+lg={12}
+sm={12}
+xl={12}
+xs={12}>
               <Form editable={editable} />
             </Grid>
           </Grid>

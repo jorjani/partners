@@ -118,24 +118,44 @@ const PublishedProjects = () => {
       >
         <Container maxWidth={false}>
           <AuthEnforce />
-          <Grid container spacing={3}>
-            <Grid item lg={9} sm={9} xl={9} xs={9}>
+          <Grid container
+spacing={3}>
+            <Grid item
+lg={9}
+sm={9}
+xl={9}
+xs={9}>
               <NavPath />
             </Grid>
-            <Grid item lg={4} sm={4} xl={4} xs={4}>
-              <Typography color="textPrimary" variant="h4">
+            <Grid item
+lg={4}
+sm={4}
+xl={4}
+xs={4}>
+              <Typography color="textPrimary"
+variant="h4">
                 Published Projects
               </Typography>
             </Grid>
-            <Grid item mr={3} lg={12} sm={12} xl={12} xs={12}>
+            <Grid item
+mr={3}
+lg={12}
+sm={12}
+xl={12}
+xs={12}>
               <Search onChange={(e) => setSearch(e.target.value)}>
                 <SearchIconWrapper>
                   <SearchIcon />
                 </SearchIconWrapper>
-                <StyledInputBase placeholder="Search Projects" inputProps={{ "aria-label": "search" }} />
+                <StyledInputBase placeholder="Search Projects"
+inputProps={{ "aria-label": "search" }} />
               </Search>
             </Grid>
-            <Grid item lg={12} sm={12} xl={12} xs={12}>
+            <Grid item
+lg={12}
+sm={12}
+xl={12}
+xs={12}>
               <ProjectsTable projects={projectsFormatted} />
             </Grid>
           </Grid>
