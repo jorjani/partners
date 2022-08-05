@@ -8,7 +8,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start -p $PORT",
-    "export": "next export",
+    "export": "next build && next export",
     "lint": "next lint",
     "lint-fix": "next lint --fix"
   },

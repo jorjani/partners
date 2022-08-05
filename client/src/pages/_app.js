@@ -21,7 +21,7 @@ const App = (props) => {
   const [ userData, setUserData ] = useState(UserContext);
   const [ iterations, setIterations ] = useState([]);
   useEffect(() => {
-    Axios.get('http://localhost:5000/iterations/').then(res => {
+    Axios.get('http://localhost:5000/api/iterations/').then(res => {
         setIterations(res.data);
     }).catch(err => {
         console.log(err);
