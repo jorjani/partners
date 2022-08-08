@@ -7,12 +7,14 @@ import { Form } from "src/components/course-overview/form";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import ForwardToInboxIcon from "@mui/icons-material/ForwardToInbox";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Swal from "sweetalert2";
 import AuthEnforce from "src/enforce/AuthEnforce";
+import IterationsContext from 'src/context/IterationsContext';
 
 const CourseOverview = () => {
   const [editable, setEditable] = useState(false);
+  const { iterations } = useContext(IterationsContext);
   const formAction = () => {
     if (editable) {
       setEditable(false);
@@ -23,7 +25,12 @@ const CourseOverview = () => {
   const getCourseFromURL = () => {
     const url = window.location.href;
     const courseId = url.split("/")[4];
-    return courseId;
+    for( let i = 0; i < iterations.length; i++ ) {
+      if (iterations[i]._id === courseId) {
+        return iterations[i].name;
+      }
+    }
+    return "";
   };
   const invitePartners = () => {
     Swal.fire({
@@ -119,30 +126,30 @@ const CourseOverview = () => {
         <Container maxWidth={false}>
           <AuthEnforce />
           <Grid container
-spacing={3}>
+            spacing={3}>
             <Grid item
-lg={9}
-sm={9}
-xl={9}
-xs={9}>
+              lg={9}
+              sm={9}
+              xl={9}
+              xs={9}>
               <NavPath />
             </Grid>
             <Grid item
-lg={4}
-sm={4}
-xl={4}
-xs={4}>
+              lg={4}
+              sm={4}
+              xl={4}
+              xs={4}>
               <Typography color="textPrimary"
-variant="h4">
+                variant="h4">
                 Course Overview
               </Typography>
             </Grid>
             <Grid item
-mr={3}
-lg={1}
-sm={2}
-xl={2}
-xs={2}>
+              mr={3}
+              lg={2}
+              sm={2}
+              xl={2}
+              xs={2}>
               <Button
                 variant="outlined"
                 href="#outlined-buttons"
@@ -153,14 +160,13 @@ xs={2}>
               </Button>
             </Grid>
             <Grid item
-mr={5}
-lg={2}
-sm={2}
-xl={2}
-xs={2}>
+              mr={5}
+              lg={2}
+              sm={2}
+              xl={2}
+              xs={2}>
               <Button
                 variant="contained"
-                href="#outlined-buttons"
                 startIcon={<ForwardToInboxIcon />}
                 onClick={() => invitePartners()}
               >
@@ -168,13 +174,12 @@ xs={2}>
               </Button>
             </Grid>
             <Grid item
-lg={2}
-sm={2}
-xl={2}
-xs={2}>
+              lg={2}
+              sm={2}
+              xl={2}
+              xs={2}>
               <Button
                 variant="contained"
-                href="#outlined-buttons"
                 startIcon={<ForwardToInboxIcon />}
                 onClick={() => inviteStudents()}
               >
@@ -182,10 +187,10 @@ xs={2}>
               </Button>
             </Grid>
             <Grid item
-lg={12}
-sm={12}
-xl={12}
-xs={12}>
+              lg={12}
+              sm={12}
+              xl={12}
+              xs={12}>
               <Form editable={editable} />
             </Grid>
           </Grid>
