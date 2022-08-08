@@ -64,7 +64,7 @@ const PublishedProjects = () => {
   };
   const getProjects = () => {
     const courseId = getIterationIdFromURL();
-    const url = `http://localhost:5000/api/projects/iteration/${courseId}/published`;
+    const url = `/api/projects/iteration/${courseId}/published`;
     Axios.get(url).then((res) => {
       setProjects(res.data);
     });

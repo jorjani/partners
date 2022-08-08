@@ -48,7 +48,7 @@ const GroupsTable = (props) => {
       }
       );
     } else {
-      Axios.post(`http://localhost:5000/api/iterations/${getCourseFromURL()}/groups/${group._id}/join`, userData.user).then(res => {
+      Axios.post(`/api/iterations/${getCourseFromURL()}/groups/${group._id}/join`, userData.user).then(res => {
         setIterations(res.data);
         Swal.fire({
           title: "Success!",
@@ -78,7 +78,7 @@ const GroupsTable = (props) => {
     }
   }
   const leaveGroup = (group) => {
-    Axios.post(`http://localhost:5000/api/iterations/${getCourseFromURL()}/groups/${group._id}/leave`, userData.user).then(res => {
+    Axios.post(`/api/iterations/${getCourseFromURL()}/groups/${group._id}/leave`, userData.user).then(res => {
       setIterations(res.data);
       Swal.fire({
         title: "Success!",
