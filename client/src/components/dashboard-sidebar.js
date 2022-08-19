@@ -8,6 +8,7 @@ import { Selector as SelectorIcon } from "../icons/selector";
 import { Logo } from "./logo";
 import { NavItem } from "./nav-item";
 import IterationsContext from "src/context/IterationsContext";
+import UserContext from "src/context/UserContext";
 
 export const DashboardSidebar = (props) => {
   const { open, onClose } = props;
@@ -20,6 +21,7 @@ export const DashboardSidebar = (props) => {
     },
   ]);
   const { iterations } = useContext(IterationsContext);
+  const { userData } = useContext(UserContext);
   const router = useRouter();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"), {
     defaultMatches: true,
@@ -39,42 +41,73 @@ export const DashboardSidebar = (props) => {
     [router.asPath]
   );
   useEffect(() => {
+    console.log(userData)
     let curItems = items;
     let curIterationNames = iterations.map((iteration) => iteration.name);
-    for(let i=0; i<iterations.length; i++) {
+    for (let i = 0; i < iterations.length; i++) {
       // if the iteration is not in the items, add it
       if (!curItems.find((item) => item.title === curIterationNames[i])) {
-        curItems.push({
-          href: `/course/${iterations[i].name}`,
-          title: iterations[i].name,
-          collapse: true,
-          children: [
-            {
-              href: `/course/${iterations[i]._id}/overview`,
-              title: "Course Overview",
-            },
-            {
-              href: `/course/${iterations[i]._id}/skills-qualifications`,
-              title: "Skills & Qualifications",
-            },
-            {
-              href: `/course/${iterations[i]._id}/recieved-projects`,
-              title: "Recieved Projects",
-            },
-            {
-              href: `/course/${iterations[i]._id}/students`,
-              title: "Students",
-            },
-            {
-              href: `/course/${iterations[i]._id}/published-projects`,
-              title: "Published Projects",
-            },
-          ],
-        });
+        if (userData.type == "student") {
+          curItems.push({
+            href: `/course/${iterations[i].name}`,
+            title: iterations[i].name,
+            collapse: true,
+            children: [
+              {
+                href: `/course/${iterations[i]._id}/overview`,
+                title: "Course Overview",
+              },
+              {
+                href: `/course/${iterations[i]._id}/student-profile`,
+                title: "Student Profile",
+              },
+              {
+                href: `/course/${iterations[i]._id}/recieved-projects`,
+                title: "Recieved Projects",
+              },
+              {
+                href: `/course/${iterations[i]._id}/students`,
+                title: "Students",
+              },
+              {
+                href: `/course/${iterations[i]._id}/published-projects`,
+                title: "Published Projects",
+              },
+            ],
+          });
+        } else if (userData.type == "educator" || userData.type == "partner") {
+          curItems.push({
+            href: `/course/${iterations[i].name}`,
+            title: iterations[i].name,
+            collapse: true,
+            children: [
+              {
+                href: `/course/${iterations[i]._id}/overview`,
+                title: "Course Overview",
+              },
+              {
+                href: `/course/${iterations[i]._id}/skills-qualifications`,
+                title: "Skills & Qualifications",
+              },
+              {
+                href: `/course/${iterations[i]._id}/recieved-projects`,
+                title: "Recieved Projects",
+              },
+              {
+                href: `/course/${iterations[i]._id}/students`,
+                title: "Students",
+              },
+              {
+                href: `/course/${iterations[i]._id}/published-projects`,
+                title: "Published Projects",
+              },
+            ],
+          });
+        }
       }
     }
     setItems(curItems);
-  }, [iterations]);
+  }, [iterations, userData.type]);
   const content = (
     <>
       <Box
@@ -88,13 +121,8 @@ export const DashboardSidebar = (props) => {
           <Box sx={{ p: 3 }}>
             <NextLink href="/">
               <Container maxWidth={false}>
-                <Grid container
-spacing={3}>
-                  <Grid item
-lg={3}
-sm={3}
-xl={3}
-xs={3}>
+                <Grid container spacing={3}>
+                  <Grid item lg={3} sm={3} xl={3} xs={3}>
                     <Logo
                       sx={{
                         height: 42,
@@ -112,8 +140,7 @@ xs={3}>
                       marginTop: "8px",
                     }}
                   >
-                    <Typography color="white"
-variant="title">
+                    <Typography color="white" variant="title">
                       ATHENA
                     </Typography>
                   </Grid>
@@ -135,12 +162,10 @@ variant="title">
               }}
             >
               <div>
-                <Typography color="inherit"
-variant="subtitle1">
+                <Typography color="inherit" variant="subtitle1">
                   Acme Inc
                 </Typography>
-                <Typography color="neutral.400"
-variant="body2">
+                <Typography color="neutral.400" variant="body2">
                   Your tier : Premium
                 </Typography>
               </div>
