@@ -13,6 +13,10 @@ require("dotenv").config({ path: "./config.env" });
 const port = process.env.PORT || 5000;
 // const handle = app.getRequestHandler();
 
+const formatRequest = (req) => {
+    return req.path.replace(/(?<=\/)[0-9a-f]{24,}/g, '[course_id]');
+}
+
 app.use(cors());
 app.use(express.json());
 app.use("/api/users", userRouter)
@@ -23,9 +27,7 @@ app.use("/api/auth", authRouter)
 
 app.use(express.static(publicPath));
 app.get('*', (req, res) => {
-    // return handle(req, res)
-    console.log(req.path)
-    res.sendFile(path.join(publicPath, req.path+'.html'));
+    res.sendFile(path.join(publicPath, formatRequest(req)+'.html'));
  });
 
 app.listen(port, () => {
