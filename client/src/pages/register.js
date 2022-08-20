@@ -179,6 +179,7 @@ const Register = () => {
                   >
                     <MenuItem value={'student'}>I am a student</MenuItem>
                     <MenuItem value={'partner'}>I am a partner</MenuItem>
+                    <MenuItem value={'management'}>I am a manager</MenuItem>
                   </TextField>
                 </Grid>
                 <Grid
