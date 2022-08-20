@@ -47,6 +47,7 @@ export const DashboardSidebar = (props) => {
     for (let i = 0; i < iterations.length; i++) {
       // if the iteration is not in the items, add it
       if (!curItems.find((item) => item.title === curIterationNames[i])) {
+        // Here we restrict user roles for sidebar navigation
         if (userData.type == "student") {
           curItems.push({
             href: `/course/${iterations[i].name}`,
@@ -62,8 +63,24 @@ export const DashboardSidebar = (props) => {
                 title: "Student Profile",
               },
               {
-                href: `/course/${iterations[i]._id}/recieved-projects`,
-                title: "Recieved Projects",
+                href: `/course/${iterations[i]._id}/published-projects`,
+                title: "Published Projects",
+              },
+            ],
+          });
+        } else if (userData.type == "partner") {
+          curItems.push({
+            href: `/course/${iterations[i].name}`,
+            title: iterations[i].name,
+            collapse: true,
+            children: [
+              {
+                href: `/course/${iterations[i]._id}/overview`,
+                title: "Course Overview",
+              },
+              {
+                href: `/course/${iterations[i]._id}/skills-qualifications`,
+                title: "Skills & Qualifications",
               },
               {
                 href: `/course/${iterations[i]._id}/students`,
@@ -75,7 +92,7 @@ export const DashboardSidebar = (props) => {
               },
             ],
           });
-        } else if (userData.type == "educator" || userData.type == "partner") {
+        } else if (userData.type == "management") {
           curItems.push({
             href: `/course/${iterations[i].name}`,
             title: iterations[i].name,
