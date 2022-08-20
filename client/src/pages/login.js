@@ -42,7 +42,7 @@ const Login = () => {
     }),
     onSubmit: (fields) => {
       console.log(fields);
-      Axios.post('/api/auth/login', fields)
+      Axios.post('http://localhost:5000/api/auth/login', fields)
         .then(res => {
           localStorage.setItem("auth-token", res.data.token);
           setUserData(res.data);

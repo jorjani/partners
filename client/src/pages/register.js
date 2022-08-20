@@ -61,7 +61,7 @@ const Register = () => {
         .oneOf([true], 'Accept Terms & Conditions is required')
     }),
     onSubmit: (fields) => {
-      Axios.post('/api/auth/register', fields)
+      Axios.post('http://localhost:5000/api/auth/register', fields)
         .then(res => {
           router.push('/');
         }).catch(err => {

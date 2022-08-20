@@ -10,13 +10,13 @@ export default function AuthEnforce() {
             localStorage.setItem("auth-token", "");
         }
         const tokenRes = await Axios.post(
-            "/api/auth/token",
+            "http://localhost:5000/api/auth/token",
             null,
             { headers: { "x-auth-token": token } }
         );
         if (tokenRes.data) {
             const userRes = await Axios.get(
-                `/api/users/${tokenRes.data.type}/${tokenRes.data.id}`,
+                `http://localhost:5000/api/users/${tokenRes.data.type}/${tokenRes.data.id}`,
                 {
                     headers: { "x-auth-token": token },
                 }

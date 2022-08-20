@@ -93,14 +93,14 @@ const Students = () => {
   };
   const getStudents = () => {
     const courseId = getIterationIdFromURL();
-    const url = `/api/users/student/iteration/${courseId}`;
+    const url = `http://localhost:5000/api/users/student/iteration/${courseId}`;
     Axios.get(url).then((res) => {
       setStudents(res.data);
     });
   };
   const getGroups = () => {
     const courseId = getIterationIdFromURL();
-    const url = `/api/iterations/${courseId}/groups`;
+    const url = `http://localhost:5000/api/iterations/${courseId}/groups`;
     Axios.get(url).then((res) => {
       setGroups(res.data);
     }

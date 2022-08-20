@@ -8,10 +8,14 @@ import {
   TableRow,
   Paper,
   Typography,
+  Button,
   Chip,
 } from "@mui/material";
 import Select from "react-select";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import Axios from "axios";
+import UserContext from "src/context/UserContext";
+import Swal from "sweetalert2";
 function createData(name, category) {
   return { name, category };
 }
@@ -114,31 +118,53 @@ export const SkillSelector = (props) => {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [input1, setInput1] = useState("");
   const [selectedSkill, setSelectedSkill] = useState(1);
+  const { userData } = useContext(UserContext);
   const handleChange = (selectedOption) => {
     //selectedOption is current list of selected options from select component
-    console.log(selectedOption);
-    setSelectedOptions(selectedOption);
-  };
-  const handleCreate = (inputValue) => {
-    let newOption = {
-      label: upperCase(inputValue) + " | " + selectedSkill,
-      value: inputValue.toLowerCase() + "_" + selectedSkill,
-    };
-    if (!options.find((option) => option.value === newOption.value)) {
-      setOptions([newOption, ...options]);
-      setInput1(newOption);
+    let diff = selectedOption.filter(x => !selectedOptions.includes(x));
+    let found = false;
+    for (let i = 0; i < selectedOptions.length; i++) {
+      let diffVal = diff[0].value.split('_')[0];
+      let selectedVal = selectedOptions[i].value.split('_')[0];
+      if (diffVal === selectedVal) {
+        found = true;
+        break;
+      }
+    }
+    if (!found) {
+      setSelectedOptions(selectedOption);
     }
   };
-  const handleDelete = (selectedOption) => {
-    let newList = options.filter((option) => option.label !== selectedOption);
-    setOptions(newList);
+  const handleDelete = (skill) => () => {
+    let newList = selectedOptions.filter((option) => {
+      return option.value !== skill.value;
+    });
+    setSelectedOptions(newList);
   };
   const upperCase = (input) => {
     return input.charAt(0).toUpperCase() + input.slice(1);
   };
+  const saveProfile = async () => {
+    let userCapabilities = [];
+    selectedOptions.forEach((option) => {
+      let cur = option.value.split("_");
+      userCapabilities.push([cur[0], cur[1]]);
+    });
+    let apiReq = await Axios.put(`http://localhost:5000/api/users/student/${userData.user._id}`, {
+      capabilities: userCapabilities
+    });
+    if (apiReq.status === 200) {
+      Swal.fire("", "Your capabilities have been saved.", "success");
+    } else {
+      Swal.fire("", "Something went wrong.", "error");
+    }
+  }
   useEffect(() => {
     setOptions(initialOptions);
   }, []);
+  useEffect(() => {
+    console.log(selectedOptions);
+  });
   return (
     <Grid container spacing={3}>
       <Grid
@@ -159,6 +185,7 @@ export const SkillSelector = (props) => {
           controlShouldRenderValue={false}
           isClearable={false}
           onChange={handleChange}
+          value={selectedOptions}
           options={options}
         />
       </Grid>
@@ -182,7 +209,7 @@ export const SkillSelector = (props) => {
             <Chip
               key={index}
               label={skill.label}
-              onDelete={handleDelete}
+              onDelete={handleDelete(skill)}
               sx={{
                 m: 0.5,
               }}
@@ -231,6 +258,22 @@ export const SkillSelector = (props) => {
             </TableBody>
           </Table>
         </TableContainer>
+      </Grid>
+      <Grid
+        item
+        lg={12}
+        sm={12}
+        xl={12}
+        xs={12}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
+        <Button variant="contained" color="primary" onClick={saveProfile}>
+          Save
+        </Button>
       </Grid>
     </Grid>
   );
