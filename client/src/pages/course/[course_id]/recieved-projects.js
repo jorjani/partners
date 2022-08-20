@@ -73,8 +73,9 @@ const ReviewedProjects = () => {
     const formattedProjects = projects
       .filter((project) => project.name.includes(search))
       .map((project) => {
-        const { name, organization_name, status, created_at, student_profile } = project;
+        const { _id, name, organization_name, status, created_at, student_profile } = project;
         return {
+          _id,
           name,
           organization: organization_name,
           status,
@@ -119,43 +120,43 @@ const ReviewedProjects = () => {
         <Container maxWidth={false}>
           <AuthEnforce />
           <Grid container
-spacing={3}>
+            spacing={3}>
             <Grid item
-lg={9}
-sm={9}
-xl={9}
-xs={9}>
+              lg={9}
+              sm={9}
+              xl={9}
+              xs={9}>
               <NavPath />
             </Grid>
             <Grid item
-lg={4}
-sm={4}
-xl={4}
-xs={4}>
+              lg={4}
+              sm={4}
+              xl={4}
+              xs={4}>
               <Typography color="textPrimary"
-variant="h4">
+                variant="h4">
                 Recieved Projects
               </Typography>
             </Grid>
             <Grid item
-mr={3}
-lg={12}
-sm={12}
-xl={12}
-xs={12}>
+              mr={3}
+              lg={12}
+              sm={12}
+              xl={12}
+              xs={12}>
               <Search onChange={(e) => setSearch(e.target.value)}>
                 <SearchIconWrapper>
                   <SearchIcon />
                 </SearchIconWrapper>
                 <StyledInputBase placeholder="Search…"
-inputProps={{ "aria-label": "search" }} />
+                  inputProps={{ "aria-label": "search" }} />
               </Search>
             </Grid>
             <Grid item
-lg={12}
-sm={12}
-xl={12}
-xs={12}>
+              lg={12}
+              sm={12}
+              xl={12}
+              xs={12}>
               <ProjectsTable projects={projectsFormatted} />
             </Grid>
           </Grid>

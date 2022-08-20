@@ -14,12 +14,22 @@ export const NavPath = (props) => {
       let pathname = window.location.pathname;
       let lst = pathname.split('/');
       let path = '/';
+      let curIteration = null;
       for (let i = 0; i < lst.length; i++) {
         let curItem = lst[i];
         for( let i = 0; i < iterations.length; i++ ) {
           if (iterations[i]._id === curItem) {
             curItem = iterations[i].name;
+            curIteration = i;
             break;
+          }
+        }
+        if(curIteration !== null){
+          for(let i = 0; i < iterations[curIteration].projects.length; i++){
+            if(iterations[curIteration].projects[i]._id === curItem){
+              curItem = iterations[curIteration].projects[i].name;
+              break;
+            }
           }
         }
         if (lst[i] !== '' && i < lst.length - 1) {
