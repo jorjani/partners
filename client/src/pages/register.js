@@ -173,6 +173,7 @@ const Register = () => {
                     onChange={formik.handleChange}
                     fullWidth
                     label="User Type"
+                    name="userType"
                     error={Boolean(formik.touched.userType && formik.errors.userType)}
                     helperText={formik.touched.userType && formik.errors.userType}
                   >

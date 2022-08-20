@@ -40,7 +40,7 @@ const Login = () => {
         .required(
           'User Type is required'),
     }),
-    onSubmit: (fields) => {
+    onSubmit: (fields, { setSubmitting }) => {
       console.log(fields);
       Axios.post('http://localhost:5000/api/auth/login', fields)
         .then(res => {
@@ -48,10 +48,11 @@ const Login = () => {
           setUserData(res.data);
           router.push('/dashboard');
         }).catch(err => {
+          setSubmitting(false);
           console.log(err);
         });
-    }
-  });
+    }}
+  );
 
   return (
     <>
@@ -168,11 +169,13 @@ const Login = () => {
                     onChange={formik.handleChange}
                     fullWidth
                     label="User Type"
+                    name="userType"
                     error={Boolean(formik.touched.userType && formik.errors.userType)}
                     helperText={formik.touched.userType && formik.errors.userType}
                   >
                     <MenuItem value={'student'}>I am a student</MenuItem>
                     <MenuItem value={'partner'}>I am a partner</MenuItem>
+                    <MenuItem value={'management'}>I am an educator</MenuItem>
                   </TextField>
                 </Grid>
                 <Grid
