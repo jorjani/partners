@@ -43,7 +43,7 @@ const projectSchema = new Schema({
     name: {type: String, required: true},
     organization_id: {type: ObjectId, required: true},
     iteration_id: {type: ObjectId, required: true},
-    status: {type: String, required: true, enum: ['pending', 'submitted', 'admitted', 'published', 'conditionally-accepted', 'not-accepted'], default: 'pending'},
+    status: {type: String, required: true, enum: ['pending', 'submitted', 'accepted', 'published', 'conditionally-accepted', 'not-accepted'], default: 'pending'},
     category: {type: [String]},
     team: {type: teamSchema, default: {}},
     start_date: {type: Date, required: true, default: Date.now},

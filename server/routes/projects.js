@@ -33,6 +33,17 @@ router.route("/:id").put(async (req, res) => {
 }
 );
 
+router.route("/:id/status/:status").put(async (req, res) => {
+    try {
+        const id = req.params.id;
+        const status = req.params.status;
+        return await updateProjectStatusInDatabase(id, status, req, res);
+    } catch (err) {
+        return res.status(500).send(err.message);
+    }
+}
+);
+
 // DELETE
 
 router.route("/:id").delete(async (req, res) => {
@@ -79,7 +90,7 @@ router.route("/iteration/:id/published").get(async (req, res) => {
 );
 
 async function getPublishedProjectsByIteration(id, req, res) {
-    let projects = await projectModel.find({ iteration_id: id, status: 'published' });
+    let projects = await projectModel.find({ iteration_id: id, status: 'accepted' });
     // get organization by organization_id in each of the docs
     let projectLst = []
     for(let i=0; i<projects.length; i++) {
@@ -127,6 +138,15 @@ function updateProjectInDatabase(id, project, req, res) {
         );
 }
 
+function updateProjectStatusInDatabase(id, status, req, res) {
+    return projectModel.findByIdAndUpdate(id, { status: status }, { new: true })
+        .then(project => {
+            return res.status(200).json(project);
+        }).catch(err => {
+            return res.status(500).send(err.message);
+        }
+        );
+}
 
 function deleteProjectFromDatabase(id, req, res) {
     return projectModel.findByIdAndDelete(id)
