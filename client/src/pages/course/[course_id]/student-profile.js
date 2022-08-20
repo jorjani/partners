@@ -2,12 +2,12 @@ import Head from "next/head";
 import { Box, Container, Grid, Typography, Button } from "@mui/material";
 import { DashboardLayout } from "../../../components/dashboard-layout";
 import { NavPath } from "src/components/nav-path";
-import { SkillSelector } from "src/components/skills-qualifications/skill-selector";
+import { SkillSelector } from "src/components/student-profile/skill-selector";
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import AuthEnforce from "src/enforce/AuthEnforce";
 
-const SkillsQualifications = () => {
+const StudentProfile = () => {
   const [skillList, setSkillList] = useState([]);
   const getCourseFromURL = () => {
     const url = window.location.href;
@@ -20,7 +20,7 @@ const SkillsQualifications = () => {
   return (
     <>
       <Head>
-        <title>Skills & Qualifications | Athena</title>
+        <title>Student Profile | Athena</title>
       </Head>
       <Box
         component="main"
@@ -37,12 +37,12 @@ const SkillsQualifications = () => {
             </Grid>
             <Grid item lg={4} sm={4} xl={4} xs={4}>
               <Typography color="textPrimary" variant="h4">
-                Skills & Qualifications
+                Student Profile
               </Typography>
             </Grid>
             <Grid item mr={3} lg={12} sm={12} xl={12} xs={12}>
               <Typography color="textPrimary" variant="p">
-                Add skills and qualifications that are relevant to your students.
+                Please rate these according to your experience.
               </Typography>
             </Grid>
             <Grid item lg={12} sm={12} xl={12} xs={12}>
@@ -54,6 +54,6 @@ const SkillsQualifications = () => {
     </>
   );
 };
-SkillsQualifications.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+StudentProfile.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
-export default SkillsQualifications;
+export default StudentProfile;

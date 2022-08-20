@@ -337,6 +337,9 @@ function getMatchingProjects(iteration_id, req, res) {
       //Get students and partners in iteration
       let teams = iteration.teams;
       let projects = iteration.projects;
+      if(!teams || !projects || teams.length == 0 || projects.length == 0) {
+        return res.status(404).send("No teams or projects found");
+      }
       return projectMatching(teams, projects);
     })
     .catch((err) => {
