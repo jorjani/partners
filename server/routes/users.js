@@ -184,7 +184,7 @@ async function updateUserInDatabase(type, id, user, req, res) {
             if (err) {
                 return res.status(500).send(err.message);
             } else {
-                return res.status(201).send(result);
+                return res.status(200).send(result);
             }
         });
     }
@@ -200,7 +200,7 @@ async function updateUserInDatabase(type, id, user, req, res) {
             if (err) {
                 return res.status(500).send(err.message);
             } else {
-                return res.status(201).send(result);
+                return res.status(200).send(result);
             }
         });
     }

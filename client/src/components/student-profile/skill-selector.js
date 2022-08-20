@@ -141,9 +141,6 @@ export const SkillSelector = (props) => {
     });
     setSelectedOptions(newList);
   };
-  const upperCase = (input) => {
-    return input.charAt(0).toUpperCase() + input.slice(1);
-  };
   const saveProfile = async () => {
     let userCapabilities = [];
     selectedOptions.forEach((option) => {
