@@ -11,10 +11,11 @@ import { useState, useContext } from "react";
 import Swal from "sweetalert2";
 import AuthEnforce from "src/enforce/AuthEnforce";
 import IterationsContext from 'src/context/IterationsContext';
-
+import UserContext from "src/context/UserContext";
 const CourseOverview = () => {
   const [editable, setEditable] = useState(false);
   const { iterations } = useContext(IterationsContext);
+  const {userData} = useContext(UserContext);
   const formAction = () => {
     if (editable) {
       setEditable(false);
@@ -25,7 +26,7 @@ const CourseOverview = () => {
   const getCourseFromURL = () => {
     const url = window.location.href;
     const courseId = url.split("/")[4];
-    for( let i = 0; i < iterations.length; i++ ) {
+    for (let i = 0; i < iterations.length; i++) {
       if (iterations[i]._id === courseId) {
         return iterations[i].name;
       }
@@ -134,58 +135,62 @@ const CourseOverview = () => {
               xs={9}>
               <NavPath />
             </Grid>
-            <Grid item
-              lg={4}
-              sm={4}
-              xl={4}
-              xs={4}>
-              <Typography color="textPrimary"
-                variant="h4">
-                Course Overview
-              </Typography>
-            </Grid>
-            <Grid item
-              mr={3}
-              lg={2}
-              sm={2}
-              xl={2}
-              xs={2}>
-              <Button
-                variant="outlined"
-                href="#outlined-buttons"
-                startIcon={!editable ? <EditIcon /> : <SaveIcon />}
-                onClick={() => formAction()}
-              >
-                {!editable ? "Edit" : "Save"}
-              </Button>
-            </Grid>
-            <Grid item
-              mr={5}
-              lg={2}
-              sm={2}
-              xl={2}
-              xs={2}>
-              <Button
-                variant="contained"
-                startIcon={<ForwardToInboxIcon />}
-                onClick={() => invitePartners()}
-              >
-                Invite Partners
-              </Button>
-            </Grid>
-            <Grid item
-              lg={2}
-              sm={2}
-              xl={2}
-              xs={2}>
-              <Button
-                variant="contained"
-                startIcon={<ForwardToInboxIcon />}
-                onClick={() => inviteStudents()}
-              >
-                Invite Students
-              </Button>
-            </Grid>
+            {userData.type === 'management' ? (
+              <>
+                <Grid item
+                  lg={4}
+                  sm={4}
+                  xl={4}
+                  xs={4}>
+                  <Typography color="textPrimary"
+                    variant="h4">
+                    Course Overview
+                  </Typography>
+                </Grid>
+                <Grid item
+                  mr={3}
+                  lg={2}
+                  sm={2}
+                  xl={2}
+                  xs={2}>
+                  <Button
+                    variant="outlined"
+                    href="#outlined-buttons"
+                    startIcon={!editable ? <EditIcon /> : <SaveIcon />}
+                    onClick={() => formAction()}
+                  >
+                    {!editable ? "Edit" : "Save"}
+                  </Button>
+                </Grid>
+                <Grid item
+                  mr={5}
+                  lg={2}
+                  sm={2}
+                  xl={2}
+                  xs={2}>
+                  <Button
+                    variant="contained"
+                    startIcon={<ForwardToInboxIcon />}
+                    onClick={() => invitePartners()}
+                  >
+                    Invite Partners
+                  </Button>
+                </Grid>
+                <Grid item
+                  lg={2}
+                  sm={2}
+                  xl={2}
+                  xs={2}>
+                  <Button
+                    variant="contained"
+                    startIcon={<ForwardToInboxIcon />}
+                    onClick={() => inviteStudents()}
+                  >
+                    Invite Students
+                  </Button>
+                </Grid>
+              </>
+            ) : (<></>)}
             <Grid item
               lg={12}
               sm={12}
