@@ -27,9 +27,7 @@ const ProjectsTable = (props) => {
               <NextLink href={`/course/${getCourseIdFromURL()}/project/${row._id}/overview`} passHref>
                 <TableRow
                   hover
-                  // selected={selectedSkill === idx + 1}
                   key={idx + 1}
-                  // onClick={() => setSelectedSkill(idx + 1)}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th"

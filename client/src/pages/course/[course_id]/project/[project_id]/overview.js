@@ -1,37 +1,24 @@
 import Head from "next/head";
-import { Box, Container, Grid, Typography, Button } from "@mui/material";
+import { Box, Container, Grid, Typography, Button, Card, CardContent } from "@mui/material";
 import { DashboardLayout } from "../../../../../components/dashboard-layout";
 import { NavPath } from "src/components/nav-path";
-import { Form } from "src/components/course-overview/form";
+import { Form } from "src/components/project-overview/form";
 import CheckIcon from "@mui/icons-material/Check";
 import BlockIcon from "@mui/icons-material/Block";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import Swal from "sweetalert2";
 import AuthEnforce from "src/enforce/AuthEnforce";
 import IterationsContext from 'src/context/IterationsContext';
 import UserContext from "src/context/UserContext";
 import Axios from "axios";
+import OrgInfo from "src/components/project-overview/org-info";
 const Project = () => {
   const [editable, setEditable] = useState(false);
+  const [projectName, setProjectName] = useState("");
+  const [projectId, setProjectId] = useState("");
+  const [project, setProject] = useState({});
   const { iterations } = useContext(IterationsContext);
   const { userData } = useContext(UserContext);
-  const formAction = () => {
-    if (editable) {
-      setEditable(false);
-    } else {
-      setEditable(true);
-    }
-  };
-  const getCourseFromURL = () => {
-    const url = window.location.href;
-    const courseId = url.split("/")[4];
-    for (let i = 0; i < iterations.length; i++) {
-      if (iterations[i]._id === courseId) {
-        return iterations[i].name;
-      }
-    }
-    return "";
-  };
   const getProjectFromURL = () => {
     const url = window.location.href;
     const projectId = url.split("/")[6];
@@ -52,6 +39,10 @@ const Project = () => {
     const projectId = url.split("/")[6];
     return projectId;
   }
+  const getProject = async () => {
+    let project = await Axios.get(`http://localhost:5000/api/projects/${getProjectIdFromURL()}`);
+    setProject(project.data);
+}
   const approveProject = async () => {
     await Axios.put(`http://localhost:5000/api/projects/${getProjectIdFromURL()}/status/accepted`)
     Swal.fire({
@@ -70,10 +61,15 @@ const Project = () => {
       confirmButtonText: "OK",
     });
   };
+  useEffect(() => {
+    getProject();
+    setProjectName(getProjectFromURL())
+    setProjectId(getProjectIdFromURL())
+  }, [])
   return (
     <>
       <Head>
-        <title>{getProjectFromURL()} | Athena</title>
+        <title>{projectName} | Athena</title>
       </Head>
       <Box
         component="main"
@@ -98,10 +94,14 @@ const Project = () => {
               sm={4}
               xl={4}
               xs={4}>
-              <Typography color="textPrimary"
-                variant="h4">
-                {getProjectFromURL()}
-              </Typography>
+              <Card>
+                <CardContent>
+                  <Typography color="textPrimary"
+                    variant="h4">
+                    {projectName}
+                  </Typography>
+                </CardContent>
+              </Card>
             </Grid>
             {userData.type === 'management' ? (
               <>
@@ -141,7 +141,18 @@ const Project = () => {
               sm={12}
               xl={12}
               xs={12}>
-              <Form editable={editable} />
+              <OrgInfo project={project}/>
+            </Grid>
+            <Grid item
+              lg={12}
+              sm={12}
+              xl={12}
+              xs={12}>
+              <Card>
+                <CardContent>
+                  <Form project={project} editable={editable} />
+                </CardContent>
+              </Card>
             </Grid>
           </Grid>
         </Container>

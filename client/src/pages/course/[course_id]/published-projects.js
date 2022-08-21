@@ -73,8 +73,9 @@ const PublishedProjects = () => {
     const formattedProjects = projects
       .filter((project) => project.name.includes(search))
       .map((project) => {
-        const { name, organization_name, status, created_at, student_profile } = project;
+        const { _id, name, organization_name, status, created_at, student_profile } = project;
         return {
+          _id,
           name,
           organization: organization_name,
           status,
@@ -98,8 +99,7 @@ const PublishedProjects = () => {
     getProjects();
   }, []);
   useEffect(() => {
-    const formattedProjects = formatProjects(projects);
-    setProjectsFormatted(formattedProjects);
+    setProjectsFormatted(formatProjects(projects));
   }, [search]);
   useEffect(() => {
     setProjectsFormatted(formatProjects(projects));

@@ -31,7 +31,9 @@ const projectConfigSchema = new Schema({
     waitlist: {type: Boolean, default: false},    //Defaults to not waitlistable
     pitch: {type: String},
     info: {type: String},
-    coworkers: {type: Boolean, required: true}
+    coworkers: {type: Boolean, required: true},
+    staff_background: {type: String, required: true},
+    publish_status: {type: Number, required: true, default: 0},
 })
 
 const studentProfileSchema = new Schema({
@@ -39,10 +41,18 @@ const studentProfileSchema = new Schema({
     categories: {type: [Object], required: true, default: []},
 });
 
+const contactPersonSchema = new Schema({
+    ref_id: {type: ObjectId, required: true},
+    name: {type: String, required: true},
+    email: {type: String, required: true},
+    role: {type: String, required: true},
+});
+
 const projectSchema = new Schema({
     name: {type: String, required: true},
     organization_id: {type: ObjectId, required: true},
     iteration_id: {type: ObjectId, required: true},
+    contact_info: {type: contactPersonSchema, required: true},
     status: {type: String, required: true, enum: ['pending', 'submitted', 'accepted', 'published', 'conditionally-accepted', 'not-accepted'], default: 'pending'},
     category: {type: [String]},
     team: {type: teamSchema, default: {}},
