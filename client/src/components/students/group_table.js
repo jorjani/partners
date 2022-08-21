@@ -58,14 +58,14 @@ const GroupsTable = (props) => {
         });
       }).catch(err => {
         console.log(err)
-        if(err.response){
+        if (err.response) {
           Swal.fire({
             title: "Error!",
             text: err.response.data,
             icon: "error",
             confirmButtonText: "Cool"
           });
-        }else{
+        } else {
           Swal.fire({
             title: "Error!",
             text: err.message,
@@ -73,7 +73,7 @@ const GroupsTable = (props) => {
             confirmButtonText: "Cool"
           });
         }
-        
+
       });
     }
   }
@@ -101,41 +101,42 @@ const GroupsTable = (props) => {
       {props.groups.map((row, idx) => (
         <>
           <Accordion key={idx}
-stayOpen>
+            stayOpen>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               // aria-controls="panel1a-content"
               id="panel1a-header"
             >
               <Grid container
-spacing={3}>
+                spacing={3}>
                 <Grid item
-lg={9}
-sm={9}
-xl={9}
-xs={9}>
+                  lg={9}
+                  sm={9}
+                  xl={9}
+                  xs={9}>
                   <Typography>{row.group_name}</Typography>
                 </Grid>
                 {
-                  userInGroup(row) ? (
-                    <Grid item
-lg={3}
-sm={3}
-xl={3}
-xs={3}>
-                      <Button variant="contained"
-onClick={() => leaveGroup(row)}>Leave</Button>
-                    </Grid>
-                  ) : (
-                    <Grid item
-lg={3}
-sm={3}
-xl={3}
-xs={3}>
-                      <Button variant="contained"
-onClick={() => joinGroup(row)}>Join</Button>
-                    </Grid>
-                  )
+                  userData.type !== 'student' ? (<></>) : (
+                    userInGroup(row) ? (
+                      <Grid item
+                        lg={3}
+                        sm={3}
+                        xl={3}
+                        xs={3}>
+                        <Button variant="contained"
+                          onClick={() => leaveGroup(row)}>Leave</Button>
+                      </Grid>
+                    ) : (
+                      <Grid item
+                        lg={3}
+                        sm={3}
+                        xl={3}
+                        xs={3}>
+                        <Button variant="contained"
+                          onClick={() => joinGroup(row)}>Join</Button>
+                      </Grid>
+                    ))
                 }
               </Grid>
             </AccordionSummary>
