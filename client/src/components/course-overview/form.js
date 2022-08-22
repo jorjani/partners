@@ -1,4 +1,4 @@
-import { Typography, Grid, TextareaAutosize} from '@mui/material';
+import { Typography, Grid, TextareaAutosize, TextField } from '@mui/material';
 import { useState } from 'react';
 export const Form = (props) => {
     const [input1, setInput1] = useState("");
@@ -41,10 +41,14 @@ export const Form = (props) => {
                 xl={9}
                 xs={9}
             >
-                <TextareaAutosize
+                <TextField
                     disabled={!props.editable}
+                    id="standard-multiline-flexible"
+                    multiline
+                    maxRows={4}
                     defaultValue={input1}
-                    size="large"
+                    onChange={e => setInput1(e.target.value)}
+                    variant="standard"
                 />
             </Grid>
             <Grid
@@ -74,10 +78,13 @@ export const Form = (props) => {
                 xl={9}
                 xs={9}
             >
-                <TextareaAutosize
+                <TextField
                     disabled={!props.editable}
+                    multiline
+                    maxRows={4}
                     defaultValue={input2}
-                    size="large"
+                    onChange={e => setInput2(e.target.value)}
+                    variant="standard"
                 />
             </Grid>
             <Grid
@@ -97,7 +104,7 @@ export const Form = (props) => {
                     variant="h6"
 
                 >
-                    Program Requirements & Expectaions
+                    Program Requirements & Expectations
                 </Typography>
             </Grid>
             <Grid
@@ -107,10 +114,13 @@ export const Form = (props) => {
                 xl={9}
                 xs={9}
             >
-                <TextareaAutosize
+                <TextField
                     disabled={!props.editable}
+                    multiline
+                    maxRows={4}
                     defaultValue={input3}
-                    size="large"
+                    onChange={e => setInput3(e.target.value)}
+                    variant="standard"
                 />
             </Grid>
             <Grid
@@ -140,10 +150,13 @@ export const Form = (props) => {
                 xl={9}
                 xs={9}
             >
-                <TextareaAutosize
+                <TextField
                     disabled={!props.editable}
+                    multiline
+                    maxRows={4}
                     defaultValue={input4}
-                    size="large"
+                    onChange={e => setInput4(e.target.value)}
+                    variant="standard"
                 />
             </Grid>
             <Grid
@@ -173,10 +186,13 @@ export const Form = (props) => {
                 xl={9}
                 xs={9}
             >
-                <TextareaAutosize
-                        disabled={!props.editable}
+                <TextField
+                    disabled={!props.editable}
+                    multiline
+                    maxRows={4}
                     defaultValue={input5}
-                    size="large"
+                    onChange={e => setInput5(e.target.value)}
+                    variant="standard"
                 />
             </Grid>
             <Grid
@@ -206,10 +222,13 @@ export const Form = (props) => {
                 xl={9}
                 xs={9}
             >
-                <TextareaAutosize
-disabled={!props.editable}
+                <TextField
+                    disabled={!props.editable}
+                    multiline
+                    maxRows={4}
                     defaultValue={input6}
-                    size="large"
+                    onChange={e => setInput6(e.target.value)}
+                    variant="standard"
                 />
             </Grid>
             <Grid
@@ -239,10 +258,13 @@ disabled={!props.editable}
                 xl={9}
                 xs={9}
             >
-                <TextareaAutosize
-disabled={!props.editable}
+                <TextField
+                    disabled={!props.editable}
+                    multiline
+                    maxRows={4}
                     defaultValue={input7}
-                    size="large"
+                    onChange={e => setInput7(e.target.value)}
+                    variant="standard"
                 />
             </Grid>
             <Grid
@@ -272,10 +294,13 @@ disabled={!props.editable}
                 xl={9}
                 xs={9}
             >
-                <TextareaAutosize
+                <TextField
                     disabled={!props.editable}
+                    multiline
+                    maxRows={4}
                     defaultValue={input8}
-                    size="large"
+                    onChange={e => setInput8(e.target.value)}
+                    variant="standard"
                 />
             </Grid>
         </Grid >
