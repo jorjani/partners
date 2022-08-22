@@ -43,6 +43,11 @@ const CourseOverview = () => {
       }
     }
   }
+  const getCourseIDFromURL = () => {
+    const url = window.location.href;
+    const courseId = url.split("/")[4];
+    return courseId;
+  }
   const validateEmail = (email) => {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
@@ -89,7 +94,7 @@ const CourseOverview = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         let invitationInfo = result.value;
-        let queryLink = window.location.origin + "/invite?";
+        let queryLink = window.location.origin + `/course/${getCourseIDFromURL()}/invite?`;
         for (let key in invitationInfo) {
           queryLink += `${key}=${invitationInfo[key]}&`;
         }

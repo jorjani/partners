@@ -1,7 +1,7 @@
 import UserContext from 'src/context/UserContext';
 import React from "react";
 import Axios from "axios";
-
+import { Router } from "next/router";
 export default function AuthEnforce() {
     const { userData, setUserData } = React.useContext(UserContext);
     const checkLoggedIn = async () => {
@@ -14,6 +14,7 @@ export default function AuthEnforce() {
             null,
             { headers: { "x-auth-token": token } }
         );
+        console.log(tokenRes)
         if (tokenRes.data) {
             const userRes = await Axios.get(
                 `http://localhost:5000/api/users/${tokenRes.data.type}/${tokenRes.data.id}`,
@@ -26,11 +27,11 @@ export default function AuthEnforce() {
                 user: userRes.data,
                 type: tokenRes.data.type,
             });
-            
         }
+        controlAccess(token)
     };
-    const controlAccess = () => {
-        if (userData.token) {
+    const controlAccess = (token) => {
+        if (token) {
             if (window.location.pathname === "/login" || window.location.pathname === "/register") {
                 window.location.href = "/dashboard";
             }
@@ -41,11 +42,10 @@ export default function AuthEnforce() {
         }
     }
     React.useEffect(() => {
-        controlAccess();
-    });
-    React.useEffect(() => {
-        checkLoggedIn();
-        controlAccess();
+        Router.events.on('routeChangeStart', () => {
+            console.log("route changed")
+            checkLoggedIn();
+        })
     }, []);
     return (<></>);
 }
