@@ -8,9 +8,10 @@ import Typography from '@mui/material/Typography';
 import { OrgCreationForm } from './org-creation-form';
 import { ProjectCreationForm } from './project-creation-form';
 import { ProjectConfigForm } from './project-config-form';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Swal from 'sweetalert2';
 import Axios from 'axios';
+import UserContext from 'src/context/UserContext';
 const steps = ['Create Organization', 'Create Project', 'Configure Project'];
 
 export default function HorizontalLinearStepper(props) {
@@ -43,6 +44,7 @@ export default function HorizontalLinearStepper(props) {
   const [input12, setInput12] = useState(true);
   const [input13, setInput13] = useState("");
   const [input14, setInput14] = useState(0);
+  const {userData} = useContext(UserContext);
   const isStepOptional = (step) => {
     return false;
   };
@@ -75,6 +77,7 @@ export default function HorizontalLinearStepper(props) {
     return courseID;
   }
   const submitForm = async () => {
+    console.log(userData.user)
     let resp = await Axios.post('http://localhost:5000/api/organizations/invite', {
       orgName: orgName,
       website: website,
@@ -87,7 +90,6 @@ export default function HorizontalLinearStepper(props) {
         name: props.name,
         email: props.email,
         role: props.role,
-        ref_id: props.ref_id,
       },
       category: categories,
       startDate: startDate,

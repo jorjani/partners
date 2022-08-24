@@ -52,14 +52,14 @@ const projectSchema = new Schema({
     name: {type: String, required: true},
     organization_id: {type: ObjectId, required: true},
     iteration_id: {type: ObjectId, required: true},
-    contact_info: {type: contactPersonSchema, required: true},
+    contact_info: {type: contactPersonSchema, required: false},
     status: {type: String, required: true, enum: ['pending', 'submitted', 'accepted', 'published', 'conditionally-accepted', 'not-accepted'], default: 'pending'},
     category: {type: [String]},
     team: {type: teamSchema, default: {}},
     start_date: {type: Date, required: true, default: Date.now},
     end_date: {type: Date, required: true, default: Date.now},
     config: {type: projectConfigSchema, default: {}},
-    student_profile: {type: studentProfileSchema},
+    student_profile: {type: studentProfileSchema, default: { status: 'pending', categories: [] }},
     created_at: {type: Date, required: true, default: Date.now},
 })
 

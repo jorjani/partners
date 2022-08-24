@@ -73,6 +73,7 @@ const ReviewedProjects = () => {
     const formattedProjects = projects
       .filter((project) => project.name.includes(search))
       .map((project) => {
+        console.log(project)
         const { _id, name, organization_name, status, created_at, student_profile } = project;
         return {
           _id,

@@ -125,7 +125,6 @@ const Invite = () => {
                     email={searchQuery.email}
                     orgInfo={searchQuery.orgInfo}
                     role={searchQuery.role}
-                    ref_id={userData.user._id}
                   />
                 </CardContent>
               </Card>

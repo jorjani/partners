@@ -7,7 +7,8 @@ var jsonParser = bodyParser.json();
 var ObjectId = require("mongodb").ObjectId;
 var { organizationModel } = require("../models/Organization");
 var { projectModel } = require("../models/Project");
-
+var { iterationModel } = require("../models/Iteration");
+var { partnerModel } = require("../models/User");
 // POST
 
 router.route("/").post(async (req, res) => {
@@ -80,7 +81,7 @@ function inviteOrganizationToDatabase(info, req, res) {
     if (!newOrganization.name || !newOrganization.website || !newOrganization.type || !newOrganization.employee_count || !newOrganization.referral_info) {
         return res.status(400).send("Missing required Organization fields");
     }
-    if(!info.projName || !info.iterId || !info.contactInfo || !info.category || !info.startDate || !info.endDate){
+    if (!info.projName || !info.iterId || !info.contactInfo || !info.category || !info.startDate || !info.endDate) {
         return res.status(400).send("Missing required Project fields");
     }
     newOrganization.save((err, organization) => {
@@ -88,29 +89,52 @@ function inviteOrganizationToDatabase(info, req, res) {
         if (err) {
             return res.status(500).send(err.message);
         }
-        const newProject = new projectModel({
-            name: info.projName,
-            organization_id: organization._id,
-            iteration_id: info.iterId,
-            contact_info: info.contactInfo,
-            category: info.category,
-            start_date: info.startDate,
-            end_date: info.endDate,
-            config: info.config
-        });
-        newProject.save((err, project) => {
+        //get id of Partner with info.contactInfo.email from partners collection
+        partnerModel.findOne({ email: info.contactInfo.email }, (err, partner) => {
             if (err) {
                 return res.status(500).send(err.message);
             }
-            //add project to organization
-            organization.projects.push(project);
-            organization.save((err, organization) => {
+            if (!partner) {
+                return res.status(400).send("Partner not found");
+            }
+            let newContactInfo = info.contactInfo;
+            newContactInfo['ref_id'] = partner._id;
+            const newProject = new projectModel({
+                name: info.projName,
+                organization_id: organization._id,
+                iteration_id: info.iterId,
+                contact_info: newContactInfo,
+                category: info.category,
+                start_date: info.startDate,
+                end_date: info.endDate,
+                config: info.config
+            });
+            console.log(newProject);
+            newProject.save((err, project) => {
                 if (err) {
                     return res.status(500).send(err.message);
                 }
-                return res.status(200).json("Organization and Project created");
-            }
-            );
+                //add project to organization
+                organization.projects.push(project);
+                organization.save((err, organization) => {
+                    if (err) {
+                        return res.status(500).send(err.message);
+                    }
+                    //add project to iteration
+                    iterationModel.findById(info.iterId, (err, iteration) => {
+                        if (err) {
+                            return res.status(500).send(err.message);
+                        }
+                        iteration.projects.push(project);
+                        iteration.save((err, iteration) => {
+                            if (err) {
+                                return res.status(500).send(err.message);
+                            }
+                            return res.status(200).json("Organization and Project created");
+                        });
+                    })
+                })
+            })
         }
         );
     }
