@@ -58,7 +58,7 @@ const projectSchema = new Schema({
     team: {type: teamSchema, default: {}},
     start_date: {type: Date, required: true, default: Date.now},
     end_date: {type: Date, required: true, default: Date.now},
-    config: {type: projectConfigSchema},
+    config: {type: projectConfigSchema, default: {}},
     student_profile: {type: studentProfileSchema},
     created_at: {type: Date, required: true, default: Date.now},
 })

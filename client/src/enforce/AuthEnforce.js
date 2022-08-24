@@ -28,7 +28,8 @@ export default function AuthEnforce() {
                 type: tokenRes.data.type,
             });
         }
-        controlAccess(token)
+        
+        controlAccess(tokenRes.data)
     };
     const controlAccess = (token) => {
         if (token) {
@@ -36,15 +37,14 @@ export default function AuthEnforce() {
                 window.location.href = "/dashboard";
             }
         } else {
-            if (window.location.pathname === "/dashhboard" || window.location.pathname.includes("course")) {
+            if (window.location.pathname.includes("dashboard") || window.location.pathname.includes("course")) {
                 window.location.href = "/login";
             }
         }
     }
     React.useEffect(() => {
         Router.events.on('routeChangeStart', () => {
-            console.log("route changed")
-            checkLoggedIn();
+            // checkLoggedIn();
         })
     }, []);
     return (<></>);

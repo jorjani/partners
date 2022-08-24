@@ -1,10 +1,13 @@
 import { Typography, Grid, TextField } from '@mui/material';
-import { useState } from 'react';
-export const Form = (props) => {
-    const [input1, setInput1] = useState("");
-    const [input2, setInput2] = useState("");
-    const [input3, setInput3] = useState("");
-    const [input4, setInput4] = useState("");
+import { useState, useEffect } from 'react';
+export const OrgCreationForm = (props) => {
+    const checkValid = () => {
+        let check1 = props.input1.length > 0 && props.input2.length > 0 && props.input3.length > 0 && props.input4 > 0 && props.input5.length > 0;
+        return check1;
+    }
+    useEffect(() => {
+        props.setValid(checkValid())
+    } , [props.input1, props.input2, props.input3, props.input4, props.input5]);
     return (
         <Grid
             container
@@ -24,80 +27,7 @@ export const Form = (props) => {
             >
                 <Typography
                     color="textPrimary"
-                    variant="h6"
-
-                >
-                    Organization Information
-                </Typography>
-            </Grid>
-            <Grid
-                item
-                lg={7}
-                sm={7}
-                xl={7}
-                xs={7}
-            >
-                <TextField
-                    disabled={!editable}
-                    id="standard-multiline-flexible"
-                    multiline
-                    maxRows={4}
-                    defaultValue={input1}
-                    onChange={e => setInput1(e.target.value)}
-                    variant="standard"
-                />
-            </Grid>
-            <Grid
-                item
-                lg={5}
-                sm={5}
-                xl={5}
-                xs={5}
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center'
-                }}
-            >
-                <Typography
-                    color="textPrimary"
-                    variant="h6"
-
-                >
-                    Email
-                </Typography>
-            </Grid>
-            <Grid
-                item
-                lg={7}
-                sm={7}
-                xl={7}
-                xs={7}
-            >
-                <TextField
-                    disabled={!editable}
-                    multiline
-                    maxRows={4}
-                    defaultValue={input2}
-                    onChange={e => setInput2(e.target.value)}
-                    variant="standard"
-                />
-            </Grid>
-            <Grid
-                item
-                lg={5}
-                sm={5}
-                xl={5}
-                xs={5}
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center'
-                }}
-            >
-                <Typography
-                    color="textPrimary"
-                    variant="h6"
+                    variant="p"
 
                 >
                     Name
@@ -111,11 +41,11 @@ export const Form = (props) => {
                 xs={7}
             >
                 <TextField
-                    disabled={!editable}
+                    id="standard-multiline-flexible"
                     multiline
                     maxRows={4}
-                    defaultValue={input3}
-                    onChange={e => setInput3(e.target.value)}
+                    defaultValue={props.input1}
+                    onChange={e => props.setInput1(e.target.value)}
                     variant="standard"
                 />
             </Grid>
@@ -133,10 +63,10 @@ export const Form = (props) => {
             >
                 <Typography
                     color="textPrimary"
-                    variant="h6"
+                    variant="p"
 
                 >
-                    Title/Role/Relationship with the Organization
+                    Website
                 </Typography>
             </Grid>
             <Grid
@@ -147,15 +77,117 @@ export const Form = (props) => {
                 xs={7}
             >
                 <TextField
-                    disabled={!editable}
                     multiline
                     maxRows={4}
-                    defaultValue={input4}
-                    onChange={e => setInput4(e.target.value)}
+                    defaultValue={props.input2}
+                    onChange={e => props.setInput2(e.target.value)}
                     variant="standard"
                 />
             </Grid>
+            <Grid
+                item
+                lg={5}
+                sm={5}
+                xl={5}
+                xs={5}
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center'
+                }}
+            >
+                <Typography
+                    color="textPrimary"
+                    variant="p"
 
+                >
+                    Type
+                </Typography>
+            </Grid>
+            <Grid
+                item
+                lg={7}
+                sm={7}
+                xl={7}
+                xs={7}
+            >
+                <TextField
+                    multiline
+                    maxRows={4}
+                    defaultValue={props.input3}
+                    onChange={e => props.setInput3(e.target.value)}
+                    variant="standard"
+                />
+            </Grid>
+            <Grid
+                item
+                lg={5}
+                sm={5}
+                xl={5}
+                xs={5}
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center'
+                }}
+            >
+                <Typography
+                    color="textPrimary"
+                    variant="p"
+
+                >
+                    Employee Count (estimate)
+                </Typography>
+            </Grid>
+            <Grid
+                item
+                lg={7}
+                sm={7}
+                xl={7}
+                xs={7}
+            >
+                <TextField
+                    type="number"
+                    defaultValue={props.input4}
+                    onChange={e => props.setInput4(e.target.value)}
+                    variant="standard"
+                />
+            </Grid>
+            <Grid
+                item
+                lg={5}
+                sm={5}
+                xl={5}
+                xs={5}
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center'
+                }}
+            >
+                <Typography
+                    color="textPrimary"
+                    variant="p"
+
+                >
+                    Referral Info
+                </Typography>
+            </Grid>
+            <Grid
+                item
+                lg={7}
+                sm={7}
+                xl={7}
+                xs={7}
+            >
+                <TextField
+                    multiline
+                    maxRows={4}
+                    defaultValue={props.input5}
+                    onChange={e => props.setInput5(e.target.value)}
+                    variant="standard"
+                />
+            </Grid>
         </Grid >
     )
 }

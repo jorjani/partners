@@ -1,10 +1,20 @@
 import { Typography, Grid, TextField } from '@mui/material';
-import { useState } from 'react';
-export const Form = (props) => {
-    const [input1, setInput1] = useState("");
-    const [input2, setInput2] = useState("");
-    const [input3, setInput3] = useState("");
-    const [input4, setInput4] = useState("");
+import { useState, useEffect } from 'react';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+export const ProjectCreationForm = (props) => {
+    const checkValid = () => {
+        let check1 = props.input1.length > 0 && props.input2.length > 0;
+        let check2 = false;
+        if(props.input3 instanceof Date && !isNaN(props.input3) && props.input4 instanceof Date && !isNaN(props.input4)) {
+            check2 = props.input3.getTime() < props.input4.getTime();
+        }
+        return check1 && check2;
+    }
+    useEffect(() => {
+        props.setValid(checkValid())
+    } , [props.input1, props.input2, props.input3, props.input4]);
     return (
         <Grid
             container
@@ -24,10 +34,10 @@ export const Form = (props) => {
             >
                 <Typography
                     color="textPrimary"
-                    variant="h6"
+                    variant="p"
 
                 >
-                    Organization Information
+                    Project Name
                 </Typography>
             </Grid>
             <Grid
@@ -38,12 +48,11 @@ export const Form = (props) => {
                 xs={7}
             >
                 <TextField
-                    disabled={!editable}
                     id="standard-multiline-flexible"
                     multiline
                     maxRows={4}
-                    defaultValue={input1}
-                    onChange={e => setInput1(e.target.value)}
+                    defaultValue={props.input1}
+                    onChange={e => props.setInput1(e.target.value)}
                     variant="standard"
                 />
             </Grid>
@@ -61,10 +70,10 @@ export const Form = (props) => {
             >
                 <Typography
                     color="textPrimary"
-                    variant="h6"
+                    variant="p"
 
                 >
-                    Email
+                    Categories (separate by comma)
                 </Typography>
             </Grid>
             <Grid
@@ -75,11 +84,10 @@ export const Form = (props) => {
                 xs={7}
             >
                 <TextField
-                    disabled={!editable}
                     multiline
                     maxRows={4}
-                    defaultValue={input2}
-                    onChange={e => setInput2(e.target.value)}
+                    defaultValue={props.input2}
+                    onChange={e => props.setInput2(e.target.value.split(","))}
                     variant="standard"
                 />
             </Grid>
@@ -97,10 +105,10 @@ export const Form = (props) => {
             >
                 <Typography
                     color="textPrimary"
-                    variant="h6"
+                    variant="p"
 
                 >
-                    Name
+                    Start Date
                 </Typography>
             </Grid>
             <Grid
@@ -110,14 +118,16 @@ export const Form = (props) => {
                 xl={7}
                 xs={7}
             >
-                <TextField
-                    disabled={!editable}
-                    multiline
-                    maxRows={4}
-                    defaultValue={input3}
-                    onChange={e => setInput3(e.target.value)}
-                    variant="standard"
-                />
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePicker
+                        label="Basic example"
+                        value={props.input3}
+                        onChange={(newValue) => {
+                            props.setInput3(newValue);
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                    />
+                </LocalizationProvider>
             </Grid>
             <Grid
                 item
@@ -133,10 +143,10 @@ export const Form = (props) => {
             >
                 <Typography
                     color="textPrimary"
-                    variant="h6"
+                    variant="p"
 
                 >
-                    Title/Role/Relationship with the Organization
+                    End Date
                 </Typography>
             </Grid>
             <Grid
@@ -146,14 +156,16 @@ export const Form = (props) => {
                 xl={7}
                 xs={7}
             >
-                <TextField
-                    disabled={!editable}
-                    multiline
-                    maxRows={4}
-                    defaultValue={input4}
-                    onChange={e => setInput4(e.target.value)}
-                    variant="standard"
-                />
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePicker
+                        label="Basic example"
+                        value={props.input4}
+                        onChange={(newValue) => {
+                            props.setInput4(newValue);
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                    />
+                </LocalizationProvider>
             </Grid>
 
         </Grid >
