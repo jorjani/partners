@@ -1,14 +1,6 @@
 import { Typography, Grid, TextareaAutosize, TextField } from '@mui/material';
 import { useState } from 'react';
 export const Form = (props) => {
-    const [input1, setInput1] = useState("");
-    const [input2, setInput2] = useState("");
-    const [input3, setInput3] = useState("");
-    const [input4, setInput4] = useState("");
-    const [input5, setInput5] = useState("");
-    const [input6, setInput6] = useState("");
-    const [input7, setInput7] = useState("");
-    const [input8, setInput8] = useState("");
     return (
         <Grid
             container
@@ -46,8 +38,8 @@ export const Form = (props) => {
                     id="standard-multiline-flexible"
                     multiline
                     maxRows={4}
-                    defaultValue={input1}
-                    onChange={e => setInput1(e.target.value)}
+                    defaultValue={props.input1}
+                    onChange={e => props.setInput1(e.target.value)}
                     variant="standard"
                 />
             </Grid>
@@ -82,8 +74,8 @@ export const Form = (props) => {
                     disabled={!props.editable}
                     multiline
                     maxRows={4}
-                    defaultValue={input2}
-                    onChange={e => setInput2(e.target.value)}
+                    defaultValue={props.input2}
+                    onChange={e => props.setInput2(e.target.value)}
                     variant="standard"
                 />
             </Grid>
@@ -118,8 +110,8 @@ export const Form = (props) => {
                     disabled={!props.editable}
                     multiline
                     maxRows={4}
-                    defaultValue={input3}
-                    onChange={e => setInput3(e.target.value)}
+                    defaultValue={props.input3}
+                    onChange={e => props.setInput3(e.target.value)}
                     variant="standard"
                 />
             </Grid>
@@ -154,8 +146,8 @@ export const Form = (props) => {
                     disabled={!props.editable}
                     multiline
                     maxRows={4}
-                    defaultValue={input4}
-                    onChange={e => setInput4(e.target.value)}
+                    defaultValue={props.input4}
+                    onChange={e => props.setInput4(e.target.value)}
                     variant="standard"
                 />
             </Grid>
@@ -190,8 +182,8 @@ export const Form = (props) => {
                     disabled={!props.editable}
                     multiline
                     maxRows={4}
-                    defaultValue={input5}
-                    onChange={e => setInput5(e.target.value)}
+                    defaultValue={props.input5}
+                    onChange={e => props.setInput5(e.target.value)}
                     variant="standard"
                 />
             </Grid>
@@ -212,7 +204,7 @@ export const Form = (props) => {
                     variant="h6"
 
                 >
-                    Proposal Submittion (Next Step)
+                    Proposal Submission (Next Step)
                 </Typography>
             </Grid>
             <Grid
@@ -226,8 +218,8 @@ export const Form = (props) => {
                     disabled={!props.editable}
                     multiline
                     maxRows={4}
-                    defaultValue={input6}
-                    onChange={e => setInput6(e.target.value)}
+                    defaultValue={props.input6}
+                    onChange={e => props.setInput6(e.target.value)}
                     variant="standard"
                 />
             </Grid>
@@ -262,8 +254,8 @@ export const Form = (props) => {
                     disabled={!props.editable}
                     multiline
                     maxRows={4}
-                    defaultValue={input7}
-                    onChange={e => setInput7(e.target.value)}
+                    defaultValue={props.input7}
+                    onChange={e => props.setInput7(e.target.value)}
                     variant="standard"
                 />
             </Grid>
@@ -298,8 +290,8 @@ export const Form = (props) => {
                     disabled={!props.editable}
                     multiline
                     maxRows={4}
-                    defaultValue={input8}
-                    onChange={e => setInput8(e.target.value)}
+                    defaultValue={props.input8}
+                    onChange={e => props.setInput8(e.target.value)}
                     variant="standard"
                 />
             </Grid>

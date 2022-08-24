@@ -12,18 +12,47 @@ import Swal from "sweetalert2";
 import AuthEnforce from "src/enforce/AuthEnforce";
 import IterationsContext from 'src/context/IterationsContext';
 import UserContext from "src/context/UserContext";
+import Axios from "axios";
 const CourseOverview = () => {
   const [editable, setEditable] = useState(false);
   const [curCourse, setCurCourse] = useState({});
   const { iterations } = useContext(IterationsContext);
   const { userData } = useContext(UserContext);
+  const [input1, setInput1] = useState("");
+  const [input2, setInput2] = useState("");
+  const [input3, setInput3] = useState("");
+  const [input4, setInput4] = useState("");
+  const [input5, setInput5] = useState("");
+  const [input6, setInput6] = useState("");
+  const [input7, setInput7] = useState("");
+  const [input8, setInput8] = useState("");
   const formAction = () => {
     if (editable) {
+      saveForm();
       setEditable(false);
     } else {
       setEditable(true);
     }
   };
+  const saveForm = async () => {
+    let config = {
+      executive_summaries: input1,
+      project_overview_examples: input2,
+      program_requirements_expectations: input3,
+      partner_testimonals: input4,
+      optional_webinar: input5,
+      proposal_submission_info: input6,
+      estimated_timeline: input7,
+      faqs: input8,
+    };
+    await Axios.put(`http://localhost:5000/api/iterations/${getCourseIDFromURL()}`, { config: config });
+    Swal.fire({
+      title: 'Saved!',
+      text: 'Your changes have been saved.',
+      icon: 'success',
+      confirmButtonText: 'Cool'
+    })
+  }
   const getCourseFromURL = () => {
     const url = window.location.href;
     const courseId = url.split("/")[4];
@@ -116,7 +145,7 @@ const CourseOverview = () => {
             Swal.fire({
               title: "Invitation Sent",
               html: `<p>Invitation link has been copied to the clipboard.</p>
-              <p>Please share this link with your partners.</p>`,            
+              <p>Please share this link with your partners.</p>`,
               confirmButtonText: "OK",
               showCancelButton: false,
               focusConfirm: false,
@@ -215,7 +244,6 @@ const CourseOverview = () => {
                   xs={2}>
                   <Button
                     variant="outlined"
-                    href="#outlined-buttons"
                     startIcon={!editable ? <EditIcon /> : <SaveIcon />}
                     onClick={() => formAction()}
                   >
@@ -258,7 +286,24 @@ const CourseOverview = () => {
               xs={12}>
               <Card>
                 <CardContent>
-                  <Form course={curCourse} editable={editable} />
+                  <Form course={curCourse} editable={editable} 
+                    input1={input1}
+                    input2={input2}
+                    input3={input3}
+                    input4={input4}
+                    input5={input5}
+                    input6={input6}
+                    input7={input7}
+                    input8={input8}
+                    setInput1={setInput1}
+                    setInput2={setInput2}
+                    setInput3={setInput3}
+                    setInput4={setInput4}
+                    setInput5={setInput5}
+                    setInput6={setInput6}
+                    setInput7={setInput7}
+                    setInput8={setInput8}
+                  />
                 </CardContent>
               </Card>
             </Grid>
