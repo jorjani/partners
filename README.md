@@ -41,7 +41,15 @@ This makes us have to re-build every time we change something so unideal for fro
 
 Please change to distinct ports when developing locally and when pushing to prod, change back to common ports.
 
+Note: future contributors can look into the src/setupProxy.js file to get a proxy going to make this change easier.
+
 ## Structure
+
+### Tech Stack
+
+This project uses the MERN stack, keeping 100% of the current implementation in JavaScript!
+
+### Folders
 
 In the client folder we have a Next.js folder structure.
 
@@ -51,10 +59,25 @@ In the src/components folder we have React components organized by folders repre
 
 In the src/pages folder we have our main pages - note that routing is auto-setup by next based on naming of files/folders in this directory. Basically, sub-folders are sub-directories and files are end-paths, with dynamic paths taken care of by naming convention [project_name] for example.
 
+In the src/context folder we have React contexts to control global states across our application.
+
 ## Usage
+
+### Build System
 
 The client build system uses Next.js to streamline and effectively speed up the building process, all while allowing hot-reloading during client (front-end) development.
 
+### User Types
+
+We have 4 user types: general, student, partner, educator.
+
+General just means we don't enforce auth to access the dashboard since we wan't users to be able to look at course overviews/projects without logging in.
+
+### Matching Algorithm
+
+One of the highlights of this project is a matching algorithm between teams and projects with currently has an infrastructure and simple implementation in the back-end but should be extended with more data and a UX/UI mockup for displaying matching results.
+
+The infrastructure currently has a series of function calls in a POST back-end route with a structure that's easily extendable to Machine Learning models like Multivariable Regression - but currently takes advantage of a Maximum Bipartite Matching algorithm based on weights.
 
 
 ## Credits
