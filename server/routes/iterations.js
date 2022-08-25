@@ -43,6 +43,18 @@ router.route("/:id/groups/:group_id/leave").post(async (req, res) => {
   }
 });
 
+router.route('/:id/user/:user_id/rank').post(async (req, res) => {
+  try {
+    let iterationId = req.params.id;
+    let userId = req.params.user_id;
+    let ranking = req.body.ranking;
+    return await updateUserRanking(iterationId, userId, ranking, req, res);
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+}
+);
+
 router.route("/:id/projects/:project_id").post(async (req, res) => {
   try {
     const id = ObjectId(req.params.id);
@@ -112,6 +124,44 @@ router.route("/:iteration_id/matching").post(async (req, res) => {
     return res.status(500).send(err.message);
   }
 });
+
+async function updateUserRanking(iterationId, userId, ranking, req, res) {
+  console.log(ranking)
+  return iterationModel
+    .findById(iterationId)
+    .then(async (iteration) => {
+      // find user in iteration
+      let curUser = await studentModel.findById(userId);
+      let found = false;
+      for (let i = 0; i < iteration.teams.length; i++) {
+        for (let j = 0; j < iteration.teams[i].members.length; j++) {
+          if (iteration.teams[i].members[j].email == curUser.email) {
+            // update ranking even if ranking isn't a field in the user model
+            if('ranking' in iteration.teams[i].members[j]) {
+              iteration.teams[i].members[j].ranking = ranking;
+            } else {
+              iteration.teams[i].members[j] = {...iteration.teams[i].members[j], ranking};
+            }
+            found = true;
+            console.log(iteration.teams[i].members[j])
+            break
+          }
+        }
+      }
+      if(!found) {
+        console.log("User not in any groups.");
+      }
+      iteration.save().then(() => {
+        return res.status(200).send("User ranking updated.");
+      }).catch((err) => {
+        return res.status(500).send(err.message);
+      });
+    })
+    .catch(err => {
+      return res.status(500).send(err.message);
+    }
+    );
+}
 
 async function joinGroup(iterationId, groupId, req, res) {
   return iterationModel
@@ -340,7 +390,7 @@ function getMatchingProjects(iteration_id, req, res) {
       if(!teams || !projects || teams.length == 0 || projects.length == 0) {
         return res.status(404).send("No teams or projects found");
       }
-      return projectMatching(teams, projects);
+      return res.status(200).send(projectMatching(teams, projects));
     })
     .catch((err) => {
       return res.status(500).send(err.message);
@@ -352,8 +402,11 @@ function projectMatching(teams, projects) {
   //Get Weights
   for (let i = 0; i < teams.length; i++) {
     //Note: getWeights is the utility function
-    weightMatrix.push(getWeights(teams[i], projects));
+    if(teams[i].members.length > 0) {
+      weightMatrix.push(getWeights(teams[i], projects));
+    }
   }
+  console.log(weightMatrix);
   return weightEvaluation(weightMatrix);
 }
 
@@ -363,12 +416,12 @@ function getWeights(team, projects) {
   let relevantProjects = projects; //Relevant projects are the projects in the iteration
   for (let i = 0; i < relevantProjects.length; i++) {
     let matchingResult = categoryMatching(team, relevantProjects[i]);
-    if (matchingResult > 0) {
+    // if (matchingResult > 0) {
       //Change this to category matching
       teamVector.push(matchingResult);
-    } else {
-      teamVector.push(-1);
-    }
+    // } else {
+    //   teamVector.push(-1);
+    // }
   }
   return teamVector;
 }
@@ -383,8 +436,8 @@ function weightEvaluation(weightMatrix) {
 function bipartiteMatching(weightMatrix) {
   // Find a maximum matching of a bipartite graph given an adjacecy matrix weight
   // The adjacecy matrix is a 2-Dimensional matrix (|teams| x |projects|)
-  let n = weightMatrix.length;
-  let m = weightMatrix[0].length;
+  let n = weightMatrix.length; // |teams|
+  let m = weightMatrix[0].length; // |projects|
   let matching = [];
   for (let i = 0; i < m; i++) {
     matching.push(-1);
@@ -398,7 +451,15 @@ function bipartiteMatching(weightMatrix) {
     if (bpm(weightMatrix, i, jobsSeen, matching)) {
       assignedProjects++;
     }
+    console.log(jobsSeen);
+    console.log(matching);
+    console.log(assignedProjects)
+    console.log(m)
+    if(assignedProjects == m) {
+      break;
+    }
   }
+  console.log(matching)
   return matching;
 }
 
@@ -421,7 +482,7 @@ function categoryMatching(team, project) {
 
   let studentCategories = team.category;
   let projectCategories = project.category;
-  let match = 0;
+  let match = 1;
   for (let i = 0; i < studentCategories.length; i++) {
     for (let j = 0; j < projectCategories.length; j++) {
       if (studentCategories[i] == projectCategories[j]) {

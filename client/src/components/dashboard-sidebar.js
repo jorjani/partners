@@ -63,8 +63,8 @@ export const DashboardSidebar = (props) => {
                 title: "Student Profile",
               },
               {
-                href: `/course/${iterations[i]._id}/recieved-projects`,
-                title: "Recieved Projects",
+                href: `/course/${iterations[i]._id}/rank-project`,
+                title: "Rank Project",
               },
               {
                 href: `/course/${iterations[i]._id}/students`,

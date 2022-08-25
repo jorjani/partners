@@ -15,7 +15,8 @@ const studentSchema = new Schema({
     ...userSchema.obj,
     student_id: {type: String, required: false},
     github_id: {type: String, required: false},
-    iterations: {type: [ObjectId], default: []}
+    iterations: {type: [ObjectId], default: []},
+    ranking: {type: [ObjectId], default: []}
 })
 
 const partnerSchema = new Schema({
