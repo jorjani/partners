@@ -10,11 +10,7 @@ export const UserInfo = (props) => {
         if (!userData.user) {
             return <></>;
         }
-        if (userData.type === 'educator') {
-            return <SchoolIcon />
-        } else if (userData.type === 'student') {
-            return <BookIcon />
-        }
+        return <BookIcon />
     }
     const getUserName = () => {
         if (!userData.user) {
