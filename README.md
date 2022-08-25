@@ -35,6 +35,12 @@ To start the back-end please run the command for local development.
 cd server && npm i && npm run start
 ```
 
+Please note that production of this app uses SSR (server-side rendering) - meaning that the front-end's static files are deployed through the server in order to have the same port for front-end and back-end.
+
+This makes us have to re-build every time we change something so unideal for front-end development.
+
+Please change to distinct ports when developing locally and when pushing to prod, change back to common ports.
+
 ## Structure
 
 In the client folder we have a Next.js folder structure.
