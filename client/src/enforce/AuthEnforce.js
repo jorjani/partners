@@ -29,7 +29,7 @@ export default function AuthEnforce() {
             });
         }
         
-        controlAccess(tokenRes.data)
+        // controlAccess(tokenRes.data)
     };
     const controlAccess = (token) => {
         if (token) {
@@ -44,8 +44,9 @@ export default function AuthEnforce() {
     }
     React.useEffect(() => {
         Router.events.on('routeChangeStart', () => {
-            // checkLoggedIn();
+            checkLoggedIn();
         })
+        checkLoggedIn();
     }, []);
     return (<></>);
 }
