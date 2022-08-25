@@ -12,6 +12,7 @@ Provide a short description explaining the what, why, and how of your project. U
 If your README is long, add a table of contents to make it easy for users to find what they need.
 
 - [Installation](#installation)
+- [Folder Structure](#structure)
 - [Usage](#usage)
 - [Credits](#credits)
 - [License](#license)
@@ -25,32 +26,34 @@ There are two parts to this project, a front-end (/client) and a back-end (/serv
 To start the front-end please run the command for local development.
 
 ```
-cd client && npm run dev
+cd client && npm i && npm run dev
 ```
 
 To start the back-end please run the command for local development.
 
 ```
-cd server && npm run start
+cd server && npm i && npm run start
 ```
+
+## Structure
+
+In the client folder we have a Next.js folder structure.
+
+The .next folder has next configurations, the out folder has prod files that are SSR via our server to deployment.
+
+In the src/components folder we have React components organized by folders representing the page they're used in.
+
+In the src/pages folder we have our main pages - note that routing is auto-setup by next based on naming of files/folders in this directory. Basically, sub-folders are sub-directories and files are end-paths, with dynamic paths taken care of by naming convention [project_name] for example.
 
 ## Usage
 
-Provide instructions and examples for use. Include screenshots as needed.
+The client build system uses Next.js to streamline and effectively speed up the building process, all while allowing hot-reloading during client (front-end) development.
 
-To add a screenshot, create an `assets/images` folder in your repository and upload your screenshot to it. Then, using the relative filepath, add it to your README using the following syntax:
 
-    ```md
-    ![alt text](assets/images/screenshot.png)
-    ```
 
 ## Credits
 
-List your collaborators, if any, with links to their GitHub profiles.
-
-If you used any third-party assets that require attribution, list the creators with links to their primary web presence in this section.
-
-If you followed tutorials, include links to those here as well.
+Tevan Bhatia (https://github.com/TevanB) (https://tevanb.com)
 
 ## License
 
@@ -70,13 +73,10 @@ Badges aren't necessary, per se, but they demonstrate street cred. Badges let ot
 
 If your project has a lot of features, list them here.
 
-## How to Contribute
-
-If you created an application or package and would like other developers to contribute it, you can include guidelines for how to do so. The [Contributor Covenant](https://www.contributor-covenant.org/) is an industry standard, but you can always write your own if you'd prefer.
-
 ## Tests
 
 Go the extra mile and write tests for your application. Then provide examples on how to run them here.
 
 ## Template Credits:
+
 https://coding-boot-camp.github.io/full-stack/github/professional-readme-guide
