@@ -14,6 +14,7 @@ If your README is long, add a table of contents to make it easy for users to fin
 - [Installation](#installation)
 - [Folder Structure](#structure)
 - [Usage](#usage)
+- [Deployment](#deployment)
 - [Credits](#credits)
 - [License](#license)
 
@@ -79,10 +80,17 @@ One of the highlights of this project is a matching algorithm between teams and 
 
 The infrastructure currently has a series of function calls in a POST back-end route with a structure that's easily extendable to Machine Learning models like Multivariable Regression - but currently takes advantage of a Maximum Bipartite Matching algorithm based on weights.
 
+## Deployment
+
+This app is currently deployed via Heroku on a free instance (possible to run on 1 Dyno due to our usage of SSR).
+
+URL: https://athena-partners-prod.herokuapp.com/
 
 ## Credits
 
 Tevan Bhatia (https://github.com/TevanB) (https://tevanb.com)
+
+If you have questions about the project, feel free to reach out and I'll try to get back to you when I can!
 
 ## License
 
