@@ -11,10 +11,28 @@ const authRouter = require("./routes/auth");
 const publicPath = path.join(__dirname, '../client/out');
 require("dotenv").config({ path: "./config.env" });
 const port = process.env.PORT || 5000;
+
 // const handle = app.getRequestHandler();
 
 const formatRequest = (req) => {
-    return req.path.replace(/(?<=\/)[0-9a-f]{24,}/g, '[course_id]');
+    let res = ""
+    let parse = req.path.split("/");
+    let counter = 0;
+    for(let i=0; i<parse.length; i++){
+        if(mongoose.isValidObjectId(parse[i])){
+            if(counter == 0){
+                res = res + "[course_id]/"
+            }else if(counter == 1){
+                res = res + "[project_id]/"
+            }
+            counter = counter + 1
+        }else{
+            res = res + parse[i] + "/"
+        }
+    }
+    res = res.substring(0, res.length - 1)
+    console.log(res)
+    return res
 }
 
 app.use(cors());

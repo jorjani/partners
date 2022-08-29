@@ -124,7 +124,7 @@ const ProposalInvitation = () => {
               xs={2}
             >
               <Button variant="outlined"
-href="#outlined-buttons"
+ 
 startIcon={!editable ? (<EditIcon />) : (<SaveIcon />)}
 onClick={() => formAction()}>
                 {!editable ? "Edit" : "Save"}
@@ -138,7 +138,7 @@ onClick={() => formAction()}>
               xs={2}
             >
               <Button variant="contained"
-href="#outlined-buttons"
+ 
 startIcon={<ForwardToInboxIcon />}
 onClick={() => invitePartners()}>
                 Invite Partners

@@ -1,6 +1,7 @@
 import { Typography, Grid, TextField } from '@mui/material';
 import { useState } from 'react';
 export const Form = (props) => {
+    const editable = true;
     const [input1, setInput1] = useState("");
     const [input2, setInput2] = useState("");
     const [input3, setInput3] = useState("");
